@@ -1,0 +1,100 @@
+/*!
+ * \addtogroup business_logic
+ * \brief For interaction with Automatic Shunting Center (ASC) structs.
+ * \{
+ */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/*!
+ * \struct ZcmAscState
+ * \brief Automatic Shunting Center (ASC) controller state info
+ *
+ * \var ZcmAscState::service
+ * \brief Service message
+ *
+ * \var ZcmAscState::connection_request
+ * \brief Request permission to connect to ASC
+ *
+ * \var ZcmAscState::main_channel
+ * \brief Availability of connection to ASC via main channel
+ *
+ * \var ZcmAscState::reserve_channel
+ * \brief Availability of connection to ASC via reserve channel
+ *
+ * \var ZcmAscState::route_received
+ * \brief Availability of the received permission for movement from the ASC
+ */
+struct ZcmAscState
+{
+    ZcmService service;
+
+    boolean connection_request;    
+
+    boolean main_channel;
+
+    boolean reserve_channel;
+
+    boolean route_received;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct ZcmAscConnection
+ * \brief Automatic Shunting Center (ASC) controller connection info
+ *
+ * \var ZcmAscConnection::service
+ * \brief Service message
+ *
+ * \var ZcmAscConnection::locomotive
+ * \brief Locomotive name with unique ID
+ * \example ТЭМ7А-534
+ *
+ * \var ZcmAscConnection::accept
+ * \brief Permission for connection to ASC
+ */
+struct ZcmAscConnection
+{
+    ZcmService service;
+
+    string locomotive;
+
+    boolean accept;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct ZcmAscRoute
+ * \brief Automatic Shunting Center (ASC) controller route info
+ *
+ * \var ZcmAscRoute::service
+ * \brief Service message
+ *
+ * \var ZcmAscRoute::permitted_distance
+ * \brief Distance allowed for movement from the last passed balise
+ *
+ * \var ZcmAscRoute::size
+ * \brief The number of the next intermediate balises in the direction of travel
+ *
+ * \var ZcmAscRoute::balises
+ * \brief Vector of sequential identifiers next balises on a given route
+ */
+struct ZcmAscRoute
+{
+    ZcmService service;
+
+    float permitted_distance;
+
+    int32_t size;
+    int32_t balises [ size ];
+}
+
+//=======================================================================================
+
+/*!
+ * \}
+ */

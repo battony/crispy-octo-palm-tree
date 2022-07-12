@@ -1,0 +1,120 @@
+/**
+  * \addtogroup imu_mplab
+  * @brief Messages for imu sensor from company «Лаборатория Микроприборов».
+  * @{
+  */
+
+ /**
+ * @struct ZcmMpLabInfo 
+ * @brief - Sensor info
+ *
+ * @var ZcmMpLabStatus::service
+ * @brief - system service information
+ *
+ * @var ZcmMpLabStatus::gnss_timestamp
+ * @brief - Sync bit with gnss(1PPS), for  details visit https://mp-lab.ru/wp-content/uploads/2020/06/protokol_informatsionnogo_obmena_serii_gkv_d-1.pdf 
+ *          
+ * @var ZcmMpLabStatus::dev_setting_finished
+ * @brief - algorithm readiness( doesn`t work with МГ-1 )
+ *          
+ * @var ZcmMpLabStatus::sync_signal_level
+ * @brief - "sync sygnal input" channel value: 1 for >2.5В, 0 for <0.5В
+ *          
+ * @var ZcmMpLabStatus::az_error
+ * @brief - accelerometer failure for z axis ( for МГ-1 flag sets for all axes simultaneously )
+ *          
+ * @var ZcmMpLabStatus::ay_error
+ * @brief - accelerometer failure for y axis ( for МГ-1 flag sets for all axes simultaneously )
+ *          
+ * @var ZcmMpLabStatus::ax_error
+ * @brief - accelerometer failure for x axis ( for МГ-1 flag sets for all axes simultaneously )
+ *          
+ * @var ZcmMpLabStatus::wz_error
+ * @brief - angular velocity sensor failure for z axis ( for МГ-1 flag sets for all axes simultaneously )
+ *          
+ * @var ZcmMpLabStatus::wy_error
+ * @brief - angular velocity sensor failure for y axis ( for МГ-1 flag sets for all axes simultaneously )
+ *          
+ * @var ZcmMpLabStatus::wx_error
+ * @brief - angular velocity sensor failure for x axis ( for МГ-1 flag sets for all axes simultaneously )
+ *          
+ * @var ZcmMpLabStatus::adc_error
+ * @brief - A/D converter error
+ *          
+ * @var ZcmMpLabStatus::adc_lost_data
+ * @brief - A/D converter data lost, 1 – If data lost detected
+ *          
+ * @var ZcmMpLabStatus::buffer_overrun
+ * @brief - data send queue overflow, 1 – if overflow occurs
+ *          
+ * @var ZcmMpLabStatus::sync_input
+ * @brief - "sync sygnal output" channel value: 1 for >2.5В, 0 for <0.5В
+ */
+ struct ZcmMpLabInfo 
+ {
+    ZcmService service;
+    
+    boolean    gnss_timestamp;
+    boolean    dev_setting_finished;
+    boolean    sync_signal_level;
+    boolean    az_error;
+    boolean    ay_error;
+    boolean    ax_error;
+    boolean    wz_error;
+    boolean    wy_error;
+    boolean    wx_error;
+    boolean    adc_error;
+    boolean    adc_lost_data;
+    boolean    buffer_overrun;
+    boolean    sync_input;
+ }
+
+ /**
+ * @struct ZcmMpLabInclinometer 
+ * @brief - Inclinometer angles
+ *
+ * @var ZcmMpLabInclinometer::alpha
+ * @brief - inclinometer alfa angle (between x axis and horizon), grad
+ *          
+ * @var ZcmMpLabInclinometer::beta
+ * @brief - inclinometer beta angle (between y axis and horizon), grad
+ */
+ struct ZcmMpLabInclinometer 
+ {
+    float alpha;
+    float beta;
+ }
+
+ /**
+ * @struct ZcmMpLab
+ * @brief The message contains information about inertial measurement unit(IMU): angular rate, the orientation of the body
+ *
+ * @var ZcmMpLab::service
+ * @brief - system service information
+ *          
+ * @var ZcmMpLab::angular_velocity
+ * @brief - sensor angular velocity, rad/s
+ *          
+ * @var ZcmMpLab::acceleration
+ * @brief - sensor acceleration, m/s^2
+ *          
+ * @var ZcmMpLab::orientation
+ * @brief - sensor orientation, grad
+ *
+ * @var ZcmMpLab::inclinometer
+ * @brief - sensor inclinometer angles, grad
+ */
+ struct ZcmMpLab
+ {
+    ZcmService           service;
+    
+    ZcmIMUVelocity       angular_velocity;
+    ZcmIMUAcceleration   acceleration;
+
+    ZcmIMUOrientation    orientation;
+    ZcmMpLabInclinometer inclinometer;
+ }
+
+/**
+  * @}
+  */

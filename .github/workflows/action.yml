@@ -1,0 +1,31 @@
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ghcr.io/battony/development_no_cuda:1.4.3
+    steps:
+    - name: Clone
+      run: git clone ${{ github.server_url }}/${{ github.repository }}.git
+    - name: Checkout
+      run: |
+        cd $(basename ${{ github.repository }})
+        git checkout $(basename ${{ github.ref }})
+    - name: Build
+      run: |
+        cd $(basename ${{ github.repository }})
+        sh scripts/build.sh
+  build-gui:
+    runs-on: ubuntu-latest
+    container: ghcr.io/battony/development_no_cuda:1.4.3
+    steps:
+    - name: Clone
+      run: git clone ${{ github.server_url }}/${{ github.repository }}.git
+    - name: Checkout
+      run: |
+        cd $(basename ${{ github.repository }})
+        git checkout $(basename ${{ github.ref }})
+    - name: Build
+      run: |
+        cd $(basename ${{ github.repository }})
+        sh scripts/build-gui.sh

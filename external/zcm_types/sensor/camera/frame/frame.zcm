@@ -1,0 +1,331 @@
+/**
+  * \addtogroup frame
+  * \brief Camera frame with additional info.
+  * \{
+  */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/** \struct ZcmFrameType
+ * \brief Type of the image
+ *
+ * \var ZcmFrameType::v
+ * \brief Stored value
+ *
+ * \var ZcmFrameType::UNDEF
+ * \brief unknown
+ *
+ * \var ZcmFrameType::RAW
+ * \brief raw image
+ *
+ * \var ZcmFrameType::JPEG
+ * \brief jpeg image
+ */
+struct ZcmFrameType
+{
+    int8_t v;
+
+    const int8_t UNDEF = 0;
+    const int8_t RAW   = 1;
+    const int8_t JPEG  = 2;
+}
+
+//=======================================================================================
+
+/** \struct ZcmFrameFormat
+ * \brief Frame colorspace format 
+ *
+ * \var ZcmFrameFormat::v
+ * \brief Stored value
+ *
+ * \var ZcmFrameFormat::UNDEF
+ * \brief unknown
+ *
+ * \var ZcmFrameFormat::RGB_8
+ * \brief 24-bit, three channels (R, G, B) with 8 bits per channel
+ *
+ * \var ZcmFrameFormat::BGR_8
+ * \brief 24-bit, three channels (B, G, R) with 8 bits per channel
+ *
+ * \var ZcmFrameFormat::GRAY_8
+ * \brief 8-bit grayscale image
+ *
+ * \var ZcmFrameFormat::BAYER_RGGB
+ * \brief Bayer filter raw data representation
+ *
+ * \var ZcmFrameFormat::YUV_420
+ * \brief uses half the vertical and quarter horizontal color resolution, 
+ *        and only one eighth of the bandwidth of the maximum color resolution.
+ *
+ * \var ZcmFrameFormat::YUV_422
+ * \brief Using MPEG-2
+--
+ */
+struct ZcmFrameFormat
+{
+    int8_t v;
+
+    const int8_t UNDEF      = 0;
+    const int8_t RGB_8      = 1;
+    const int8_t BGR_8      = 2;
+    const int8_t GRAY_8     = 3;
+    const int8_t BAYER_RGGB = 5;
+    const int8_t YUV_420    = 6;
+    const int8_t YUV_422    = 7;
+}
+
+//=======================================================================================
+
+/** \struct ZcmFrameTarget
+ * \brief Image data delivery target CPU/GPU RAM.
+ *
+ * \var ZcmFrameTarget::v
+ * \brief Stored value
+ * 
+ * \var ZcmFrameTarget::UNDEF
+ * \brief unknown
+ *
+ * \var ZcmFrameTarget::CPU
+ * \brief Normal CPU memory buffer is used for image data.
+ *
+ * \var ZcmFrameTarget::GPU
+ * \brief Data is delivered straight to GPU memory using GPUDirect technology.
+ *
+ * \var ZcmFrameTarget::UNIFIED
+ * \brief CUDA managed memory is used for image data.
+ *
+ * \var ZcmFrameTarget::ZEROCOPY
+ * \brief CUDA zerocopy memory is used for image data.
+ */
+struct ZcmFrameTarget
+{
+    int8_t v;
+
+    const int8_t UNDEF      = 0;
+    const int8_t CPU        = 1;
+    const int8_t GPU        = 2;
+    const int8_t UNIFIED    = 3;
+    const int8_t ZEROCOPY   = 4;
+}
+
+//=======================================================================================
+
+/** \struct ZcmFrameControl
+ * \brief Manipulator control flag. 
+ * \detail Analyzed in the case of using cameras as a stereo pair
+ *
+ * \var ZcmFrameControl::v
+ * \brief Stored value
+ */
+struct ZcmFrameControl
+{
+    int8_t v;
+
+    const int8_t SEPARATE = 0;
+    const int8_t MASTER   = 1;
+    const int8_t SLAVE    = 2;
+}
+
+//=======================================================================================
+
+/** \struct ZcmFrameZone
+ *
+ * \var ZcmFrameZone::v
+ * \brief Stored value
+ */
+struct ZcmFrameZone
+{
+    int8_t v;
+
+    const int8_t UNDEF  = 0;
+    const int8_t FAR    = 1;
+    const int8_t MIDDLE = 2;
+    const int8_t NEAR   = 3;
+    const int8_t DEATH  = 4;
+    const int8_t OTHER  = 5;
+}
+
+//=======================================================================================
+
+/** \struct ZcmFrameInfo
+ * \brief Camera calibraton parameters
+ *
+ * \var ZcmFrameInfo::mat_size
+ * \brief max matrix/vector calibration dimension
+ *
+ * \var ZcmFrameInfo::coef_size
+ * \brief max distortion vector dimension
+ *
+ * \var ZcmFrameInfo::matrix
+ * \brief camera intrinsic matrix
+ *
+ * \var ZcmFrameInfo::distortion
+ * \brief radial image distortion
+ *
+ * \var ZcmFrameInfo::rotation
+ * \brief rotation vector
+ *
+ * \var ZcmFrameInfo::translation
+ * \brief translation vector 
+ */
+struct ZcmFrameInfo
+{
+    const int8_t mat_size  = 3;
+    const int8_t coef_size = 5;
+
+    float matrix      [mat_size][mat_size];
+    float distortion  [coef_size];
+    float rotation    [mat_size];
+    float translation [mat_size];
+}
+
+//=======================================================================================
+
+/** \struct ZcmFrameRoi
+ * \brief 3D regon of interest for camera position
+ *
+ * \var ZcmFrameRoi::near
+ * \brief closest frame point, meters
+ *
+ * \var ZcmFrameRoi::length
+ * \brief maximum roi range by X axis (ISO 8855:2011), meters
+ *
+ * \var ZcmFrameRoi::left
+ * \brief maximum roi left range by Y axis (ISO 8855:2011), meters
+ *
+ * \var ZcmFrameRoi::right
+ * \brief maximum roi right range by -Y axis (ISO 8855:2011), meters
+ */
+struct ZcmFrameRoi
+{
+    float near;
+    float length;
+    float left;
+    float right;
+}
+
+//=======================================================================================
+
+/** \struct ZcmFramePerspective
+ * \brief bird-view parameters
+ *
+ * \var ZcmFramePerspective::size
+ * \brief max matrix/vector calibration dimension
+ *
+ * \var ZcmFramePerspective::perspective
+ * \brief perspective transformation matrix
+ *
+ * \var ZcmFramePerspective::px_to_meter
+ * \brief Scale transformation pixels to meters
+ *
+ * \var ZcmFramePerspective::roi
+ * \brief 3D regon of interest for camera position
+ */
+struct ZcmFramePerspective
+{
+    const int8_t size = 3;
+
+    float perspective [size][size];
+    float px_to_meter;    
+
+    ZcmFrameRoi roi;   
+}
+
+//=======================================================================================
+
+/** \struct ZcmFrame
+ * \brief frame data full message
+ *
+ * \var ZcmFrame::service
+ * \brief service working info message
+ *
+ * \var ZcmFrame::location
+ * \brief Location of the sensor in the locomotive system
+ *
+ * \var ZcmFrame::info
+ * \brief camera calibraton parameters
+ *
+ * \var ZcmFrame::perspective
+ * \brief bird-view of interest for camera position as ZcmFramePerspective
+ *
+ * \var ZcmFrame::zone
+ * \brief frame reflecting the area visible by the camera around the vehicle.
+ *        No gradations by meters, since all flags are relative to each vehicle.
+ *        As ZcmFrameZone
+ *
+ * \var ZcmFrame::type
+ * \brief type of the image as ZcmFrameType
+ *
+ * \var ZcmFrame::format
+ * \brief image format as ZcmFrameFormat
+ *
+ * \var ZcmFrame::target
+ * \brief image target as ZcmFrameTarget
+ *
+ * \var ZcmFrame::control
+ * \brief camera manipulator type as ZcmFrameControl
+ *
+ * \var ZcmFrame::width
+ * \brief image columns size, pixels
+ *
+ * \var ZcmFrame::height
+ * \brief image roes size, pixels
+ *
+ * \var ZcmFrame::flip_x
+ * \brief Horizontal image flip.
+ *
+ * \var ZcmFrame::flip_y
+ * \brief Vertical image flip.
+ *
+ * \var ZcmFrame::resized
+ * \brief flag if image was resized
+ *
+ * \var ZcmFrame::resized_width
+ * \brief image columns size after resize, pixels
+ *
+ * \var ZcmFrame::resized_height
+ * \brief image rows size after resize, pixels
+ *
+ * \var ZcmFrame::size
+ * \brief image data buffer dimension
+ *
+ * \var ZcmFrame::data
+ * \brief image data buffer
+ */
+struct ZcmFrame
+{
+    ZcmService service;
+
+    ZcmSensorLocation location;
+
+    ZcmFrameInfo info;
+    ZcmFramePerspective perspective;
+
+    ZcmFrameZone zone;
+    ZcmFrameType type;
+    ZcmFrameFormat format;
+    ZcmFrameTarget target;
+    ZcmFrameControl control;
+
+    int16_t width;
+    int16_t height;
+
+    boolean flip_x;
+    boolean flip_y;
+
+    boolean resized;
+
+    int16_t resized_width;
+    int16_t resized_height;
+
+    int32_t size;
+    byte    data [size];
+}
+
+//=======================================================================================
+
+/**
+  * \}
+  */

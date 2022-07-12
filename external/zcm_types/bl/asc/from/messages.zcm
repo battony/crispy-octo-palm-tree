@@ -1,0 +1,309 @@
+/*!
+ * \addtogroup business_logic
+ * \brief For interaction with Automatic Shunting Center (ASC) structs.
+ * \{
+ */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/*!
+ * \struct RbcHeader
+ * \brief Data required to be transmitted in every message from Track to Train.
+ *
+ * \var RbcHeader::time
+ * \brief Message sent time (T_TRAIN).
+ *
+ * \var RbcHeader::ack
+ * \brief Confirmation request flag (M_ACK).
+ *
+ * \var RbcHeader::last_balise_id
+ * \brief ID of the last passed balise (NID_LRBG).
+ */
+struct RbcHeader
+{
+    int32_t time;
+
+    boolean ack;
+
+    int32_t last_balise_id;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct SRAuthMsg
+ * \brief Message 2 SR Authorisation. Used to send permission to move.
+ *
+ * \var SRAuthMsg::header
+ * \brief Data required to be transmitted in every message from Track to Train.
+ *
+ * \var SRAuthMsg::scale
+ * \brief Distance scale.
+ *
+ * \var SRAuthMsg::distance
+ * \brief Distance in SR mode.
+ *
+ * \var SRAuthMsg::is_balise_list
+ * \brief Availability flag of 63 package.
+ *
+ * \var SRAuthMsg::list
+ * \brief Used to transfer data for applications.
+ */
+struct SRAuthMsg
+{
+    RbcHeader header;
+
+    int8_t scale;
+
+    int16_t distance;
+
+    boolean is_balise_list;
+
+    SRBaliseList list;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct MovementAuthMsg
+ * \brief Message 3 Movement Authority
+ *
+ * \details Used to send permission to move.
+ *
+ * \var MovementAuthMsg::header
+ * \brief Data required to be transmitted in every message from Track to Train.
+ *
+ * \var MovementAuthMsg::link
+ * \brief Used to convey all virtual balises in motion permission.
+ *
+ * \var MovementAuthMsg::auth
+ * \brief Used to transmit motion permission.
+ *
+ * \var MovementAuthMsg::is_order
+ * \brief Availability flag of 63 package.
+ *
+ * \var MovementAuthMsg::order
+ * \brief Used to change the control level.
+ *
+ * \var MovementAuthMsg::is_speed_restriction
+ * \brief Availability flag of 65 package.
+ *
+ * \var MovementAuthMsg::restriction
+ * \brief Used to convey temporary speed limits.
+ *
+ * \var MovementAuthMsg::is_speed_revocation
+ * \brief Availability flag of 66 package.
+ *
+ * \var MovementAuthMsg::revocation
+ * \brief Used to override temporary speed limits.
+ */
+struct MovementAuthMsg
+{
+    RbcHeader header;
+
+    Linking       link;
+
+    MovementAuth  auth;
+
+    boolean is_order;
+
+    LvlTransitionOrder order;
+
+    boolean is_speed_restriction;
+
+    SpeedRestr restriction;
+
+    boolean is_speed_revocation;
+
+    SpeedRestrRev revocation;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct DataAckMsg
+ * \brief Message 8 Acknowledgement of Train Data
+ *
+ * \details Used to confirm the message of the train data.
+ *
+ * \var DataAckMsg::header
+ * \brief Data required to be transmitted in every message from Track to Train.
+ *
+ * \var DataAckMsg::time
+ * \brief Time to send a confirmed message with batch 11.
+ */
+struct DataAckMsg
+{
+    RbcHeader header;
+
+    int32_t time;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct EmergencyStopMsg
+ * \brief Message 16 Unconditional Emergency Stop.
+ *
+ * \details Used to send an unconditional emergency stop.
+ *
+ * \var EmergencyStopMsg::header
+ * \brief Data required to be transmitted in every message from Track to Train.
+ *
+ * \var EmergencyStopMsg::emergency_id
+ * \brief Emergency stop message identifier.
+ */
+struct EmergencyStopMsg
+{
+    RbcHeader header;
+
+    int8_t emergency_id;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct RevocationOfEsMsg
+ * \brief Message 18 Revocation of Emergency Stop.
+ *
+ * \details Used to cancel an unconditional emergency stop.
+ *
+ * \var RevocationOfEsMsg::header
+ * \brief Data required to be transmitted in every message from Track to Train.
+ *
+ * \var RevocationOfEsMsg::emergency_id
+ * \brief Emergency stop message identifier.
+ */
+struct RevocationOfEsMsg
+{
+    RbcHeader header;
+
+    int8_t emergency_id;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct GeneralMsg
+ * \brief Message 24 General message.
+ *
+ * \details Used to send various data or maintain a communication session.
+ *
+ * \var GeneralMsg::header
+ * \brief Data required to be transmitted in every message from Track to Train.
+ *
+ * \var GeneralMsg::is_management
+ * \brief Flag of the presence of 42 packages.
+ *
+ * \var GeneralMsg::management
+ * \brief Used to control the installation or termination of
+ *        a communication session with the RBC.
+ *
+ * \var GeneralMsg::is_appdata
+ * \brief Flag of the presence of 44 packages.
+ *
+ * \var GeneralMsg::data
+ * \brief Used to transfer data for applications.
+ */
+struct GeneralMsg
+{
+    RbcHeader header;
+
+    boolean is_management;
+    
+    SessionManagement management;
+    
+    boolean is_appdata;
+
+    AppDataFromRbc data;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct SysVersionMsg
+ * \brief Message 32 RBC/RIU System Version.
+ *
+ * \details Used to transfer the ETCS version to the RBC.
+ *
+ * \var SysVersionMsg::header
+ * \brief Data required to be transmitted in every message from Track to Train.
+ *
+ * \var SysVersionMsg::etcs_ver
+ * \brief ETCS version. Set at 010 0001.
+ */
+struct SysVersionMsg
+{
+    RbcHeader header;
+
+    int8_t etcs_ver;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct TerminationAckMsg
+ * \brief Message 39 Acknowledgement of termination of a communication session.
+ *
+ * \details Used to confirm the end of the communication session.
+ *
+ * \var TerminationAckMsg::header
+ * \brief Data required to be transmitted in every message from Track to Train.
+ */
+struct TerminationAckMsg
+{
+    RbcHeader header;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct TrainRejectedMsg
+ * \brief Message 40 Train Rejected.
+ *
+ * \details Used to decline the train connection.
+ *
+ * \var TrainRejectedMsg::header
+ * \brief Data required to be transmitted in every message from Track to Train.
+ */
+struct TrainRejectedMsg
+{
+    RbcHeader header;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct TrainAcceptedMsg
+ * \brief Message 41 Train Accepted.
+ *
+ * \details Used to confirm the train connection.
+ *
+ * \var TrainAcceptedMsg::header
+ * \brief Data required to be transmitted in every message from Track to Train.
+ */
+struct TrainAcceptedMsg
+{
+    RbcHeader header;
+}
+
+//=======================================================================================
+/*!
+ * \struct ZcmDisconnectIndication
+ * \brief Used for disconnect from RBC
+ *
+ * \var ZcmDisconnectIndication::time
+ * \brief Timestamp of disconnection.
+ */
+ struct ZcmDisconnectIndication
+ {
+    int32_t time;
+ }
+
+//=======================================================================================
+
+/*!
+ * \}
+ */

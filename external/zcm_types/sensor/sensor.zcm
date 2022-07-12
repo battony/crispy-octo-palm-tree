@@ -1,0 +1,148 @@
+/**
+  * \addtogroup sensor
+  * \brief All sensor types
+  * \{
+  */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/** \struct ZcmSensor
+ *  \brief Source sensor types
+ *
+ * \var ZcmSensor::v
+ * \brief Stored value
+ *
+ * UNDEF  - unknown
+ * CAM    - from camera image
+ * LIDAR  - from lidar point cloud
+ * RADAR  - from radar points
+ * STEREO - from stereo pairs
+ * LOC    - from localization module
+ * TOF    - Time of Flight camera
+ * ULTRA  - Ultrasonic sensor
+ */
+struct ZcmSensor
+{
+	int8_t v;
+
+	const int8_t UNDEF  = 0;
+
+    const int8_t CAM    = 1;
+    const int8_t LIDAR  = 2;
+    const int8_t RADAR  = 3;
+    const int8_t STEREO = 4;
+    const int8_t LOC    = 5;
+    const int8_t TOF    = 6;
+    const int8_t ULTRA  = 7;
+
+    const int8_t OTHER  = 8;
+}
+
+//=======================================================================================
+
+/** \struct ZcmSensorModel
+ *
+ * \var ZcmSensorModel::v
+ * \brief Stored value
+ * 
+ * Lidars  : Livox, LeddarTech
+ * Cameras : Basler, Ximea, Lucid
+ * Radars  : Continental
+ * Localization : Orientus, U-Blox, Gyrolab
+ * Ultrasonics: SteelMate
+ */
+struct ZcmSensorModel
+{
+	int8_t v;
+
+	const int8_t UNDEF = 0;
+
+	const int8_t LIVOX 		= 1;
+	const int8_t LEDDARTECH = 2;	
+
+	const int8_t BASLER = 3;
+	const int8_t XIMEA = 4;
+	const int8_t LUCID  = 5;
+
+	const int8_t CONTI = 6;
+
+	const int8_t ORIENTUS = 7;
+	const int8_t UBLOX    = 8;
+	const int8_t GYROLAB  = 9;
+
+	const int8_t STEELMATE = 10;	
+
+	const int8_t OTHER = 11;
+}
+
+//=======================================================================================
+
+/**
+ * \struct ZcmSensorLocation
+ * \brief Location of the sensor in the locomotive system
+ *
+ * \var ZcmSensorLocation::direction
+ * \brief Direction of obstacle detection unit, [UNDEF, FRONT, BACK, OTHER]
+ *
+ * \var ZcmSensorLocation::level
+ * \brief Level of obstacle detection unit, [UNDEF, DOWN, MIDDLE, UP]
+ *
+ * \var ZcmSensorLocation::number
+ * \brief Number in system in local system, [1,2,...,inf]
+ *
+ *  _____________
+ * | 1 2 3 4 5 6 |	    /\
+ * |			 |	   /||\
+ * |	FRONT	 |		||
+ * |			 |		||
+ * |			 |		||
+ * |			 |		||
+ * |			 |		||
+ * |			 |		||
+ * |	BACK	 |		||
+ * |			 |  	||
+ * | 6 5 4 3 2 1 |      ||
+ * |_____________|
+ *
+ *           
+ *         ------- 
+ *       __|_Up__|____________________ _ _ _ _
+ *		|
+ *		|
+ *		|---------
+ *		| Middle |
+ *		|---------
+ *		|				Front 
+ *		|			
+ *		|-------
+ *		| Down |
+ *		|-------
+ *		|_____________________________ _ _ _ _
+ *
+ *					
+ */
+struct ZcmSensorLocation
+{
+	int8_t direction;
+
+	const int8_t FRONT = 1;
+	const int8_t BACK  = 2;
+
+	int8_t level;
+
+	const int8_t UNDEF  = 0;	
+	const int8_t DOWN   = 1;
+	const int8_t MIDDLE = 2;
+	const int8_t UP     = 3;
+	const int8_t OTHER  = 4;
+
+	int8_t number;
+}
+
+//=======================================================================================
+
+/**
+  * \}
+  */

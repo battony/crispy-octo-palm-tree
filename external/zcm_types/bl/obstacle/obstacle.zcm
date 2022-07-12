@@ -1,0 +1,148 @@
+/*!
+ * \addtogroup business_logic
+ * \brief Obstacle data struct.
+ * \{
+ */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/*! 
+ * \struct ZcmObstacleZone
+ * \brief Classification of areas around the vehicle.
+ * 
+ * \var ZcmObstacleZone::v
+ * \brief Stored value.
+ * 
+ * \var ZcmObstacleZone::UNDEF
+ * \brief Unknown zone.
+ * 
+ * \var ZcmObstacleZone::DANGER
+ * \brief Rolling stock gauge.
+ * 
+ * \var ZcmObstacleZone::WARNING
+ * \brief Zone of increased attention with a decrease in speed.
+ * 
+ * \var ZcmObstacleZone::SAFE
+ * \brief Object tracking safe area.
+ * 
+ * \var ZcmObstacleZone::OTHER
+ * \brief Other zone type.
+ */
+struct ZcmObstacleZone
+{
+	int8_t v;
+
+	const int8_t UNDEF   = 0;
+    const int8_t DANGER  = 1;
+    const int8_t WARNING = 2;
+    const int8_t SAFE    = 3;
+    const int8_t OTHER   = 4;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct ZcmObstacle
+ * \brief Detected obstacle info.
+ *
+ * \var ZcmObstacle::object
+ * \brief Detected object info.
+ *
+ * \var ZcmObstacle::id
+ * \brief Obstacle index in specific zone.
+ *
+ * \var ZcmObstacle::distance
+ * \brief Distance to obstacle in curve, meters. 
+ *
+ * \var ZcmObstacle::projection
+ * \brief Obstale projection to nearest track, meters.
+ *
+ * \var ZcmObstacle::probability
+ * \brief Probability of an obstacle [0..1].
+ *
+ * \var ZcmObstacle::zone
+ * \brief Zone id as ZcmObstacleZone.
+ */
+struct ZcmObstacle
+{
+	ZcmObjectF object;
+
+	int32_t id;
+
+	float distance;
+
+	float projection;
+
+	float probability;
+
+	ZcmObstacleZone zone;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct ZcmObstacles
+ * \brief List of detected obstacles.
+ *
+ * \var ZcmObstacles::service
+ * \brief Service working message.
+ *
+ * \var ZcmObstacles::id_danger
+ * \brief Index of the nearest obstacle in the danger zone.
+ *
+ * \var ZcmObstacles::id_warning
+ * \brief Index of the nearest obstacle in the warning zone.
+ *
+ * \var ZcmObstacles::id_safe
+ * \brief Index of the nearest obstacle in the safe zone.
+ *
+ * \var ZcmObstacles::size_danger
+ * \brief obstacles count in ZcmObstacleZone::DANGER.
+ *
+ * \var ZcmObstacles::data_danger
+ * \brief Vector of tracked obstacles in ZcmObstacleZone::DANGER.
+ *
+ * \var ZcmObstacles::size_warning
+ * \brief Obstacles count in ZcmObstacleZone::WARNING.
+ *
+ * \var ZcmObstacles::data_warning
+ * \brief Vector of tracked obstacles in ZcmObstacleZone::WARNING.
+ *
+ * \var ZcmObstacles::size_safe
+ * \brief Obstacles count in ZcmObstacleZone::SAFE.
+ *
+ * \var ZcmObstacles::data_safe
+ * \brief Vector of tracked obstacles in ZcmObstacleZone::SAFE.
+ *
+ * \detail Vectors must be ordered by the distance to obstacles.
+ */
+struct ZcmObstacles
+{
+	ZcmService service;
+
+	int32_t id_danger;
+
+	int32_t id_warning;
+
+	int32_t id_safe;
+
+	int32_t size_danger;
+
+    ZcmObstacle data_danger [ size_danger ];
+
+	int32_t size_warning;
+
+    ZcmObstacle data_warning [ size_warning ];
+
+	int32_t size_safe;
+
+    ZcmObstacle data_safe [ size_safe ];
+}
+
+//=======================================================================================
+
+/**
+  * \}
+  */

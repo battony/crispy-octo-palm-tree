@@ -1,0 +1,98 @@
+/*!
+ * \addtogroup sensor
+ * \brief Odometer of locomotive data struct.
+ * \{
+ */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/*!
+ * \struct ZcmOdometerData
+ * \brief Interpretaed odometer data 
+ *
+ * \var ZcmOdometerData::count_abs
+ * \brief Impulse absolute counter (only increases)
+ *
+ * \var ZcmOdometerData::count_rel
+ * \brief Impulse relative counter (set to zero when changing direction)
+ *
+ * \var ZcmOdometerData::direction
+ * \brief Flag with info about direction of rotation of the wheel. 
+ *		  true  - forward
+ *		  false - backward
+ *
+ * \var ZcmOdometerData::di_state
+ * \brief State of encoder registers.
+ *                  0 : First and second channels are disconnected.
+ *                  1 : First channel is disconnected and second is connected.
+ *                  2 : First channel is connected and second channel is disconnected.
+ *					3 : First and second channels are connected.
+ */
+struct ZcmOdometerData
+{
+	int64_t count_abs;
+	int64_t count_rel;
+
+ 	boolean direction;
+    
+    byte di_state;
+}
+
+//=======================================================================================
+
+/*
+ * \struct ZcmOdometerValidity
+ * \brief Flag of ZcmOdometerData validity.
+ *
+ * \var ZcmOdometerValidity::UNDEF
+ * \brief Undefined validity status
+ *
+ * \var ZcmOdometerValidity::GOOD
+ * \brief All data valid
+ *
+ * \var ZcmOdometerValidity::v
+ * \brief UNDEF - undefined status; GOOD - all data valid; 1..Inf - N-odometer is invalid
+ */
+struct ZcmOdometerValidity
+{
+	int8_t v;
+    
+    const int8_t UNDEF = -1;
+    const int8_t GOOD = 0;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct ZcmOdometer
+ * \brief Information from the locomotive control system
+ *
+ * \var ZcmOdometer::service
+ * \brief Service message
+ *
+ * \var ZcmOdometer::validity
+ * \brief Data validity status
+ *
+ * \var ZcmOdometer::size
+ * \brief Count of active odometer sensors
+ *
+ * \var ZcmOdometer::data
+ * \brief Info of each active odometer sensor
+ */
+struct ZcmOdometer
+{
+    ZcmService service;
+
+	ZcmOdometerValidity validity;
+
+    int16_t size;
+    ZcmOdometerData data [ size ];
+}
+
+//=======================================================================================
+
+/*!
+ * \}
+ */

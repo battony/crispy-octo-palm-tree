@@ -1,0 +1,468 @@
+/**
+ * \addtogroup ublox
+ * @brief Messages for working with gnss u-blox ZED-F9P.
+ * @{
+ */
+  
+//=======================================================================================
+
+
+//=======================================================================================
+
+/**
+ * @struct ZcmUbloxMode
+ * @brief GNSS mode
+ *
+ * @var ZcmUbloxMode::v
+ * @brief GNSS mode value
+ *
+ * @var ZcmUbloxMode::UNDEF
+ * @brief undefined mode
+ *
+ * @var ZcmUbloxMode::AUTONOMOUS
+ * @brief Without corrections
+ *
+ * @var ZcmUbloxMode::RTK_float
+ * @brief real time kinematik mode
+ *          
+ * @var ZcmUbloxMode::RTK_fix  
+ * @brief real time kinematik fix mode
+ *          
+ */
+struct ZcmUbloxMode 
+{
+   int8_t v;
+    
+   const int8_t UNDEF      = 0;
+   const int8_t AUTONOMOUS = 1;
+   const int8_t SBAS       = 2;
+   const int8_t RTK_float  = 3;
+   const int8_t RTK_fix    = 4;
+} 
+
+//=======================================================================================
+
+/**
+ * @struct ZcmUbloxMessageSolution
+ * @brief Message solution type
+ *
+ * @var ZcmUbloxMessageSolution::v  
+ * @brief Solution type
+ *        ( ID : LABEL )
+ *          0 : FIX_NO        - no fix
+ *          1 : FIX_DEAD      - dead reckoning only
+ *          2 : FIX_2D        - 2D-fix
+ *          3 : FIX_3D        - 3D-fix
+ *          4 : FIX_GNSS_DEAD - GNSS + dead reckoning combined
+ *          5 : FIX_TIME      - time only fix
+ *     
+ */
+struct ZcmUbloxMessageSolution
+{
+   int8_t v;
+    
+   const int8_t FIX_NO        = 0;
+   const int8_t FIX_DEAD      = 1;
+   const int8_t FIX_2D        = 2;
+   const int8_t FIX_3D        = 3;
+   const int8_t FIX_GNSS_DEAD = 4;
+   const int8_t FIX_TIME      = 5;
+} 
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmUbloxRelPosNedStatus
+ * @brief Flags of relative positioning information in NED frame 
+ *
+ * @var ZcmUbloxRelPosNedStatus::valid
+ * @brief 1 if relative position components and accuracies are valid and, 
+ *        in moving base mode only, if baseline is valid
+ *          
+ * @var ZcmUbloxRelPosNedStatus::moving_base
+ * @brief 1 if the receiver is operating in moving base mode
+ *                 
+ * @var ZcmUbloxRelPosNedStatus::ref_pos_missed
+ * @brief 1 if extrapolated reference position was used to compute 
+ *        moving base solution this epoch
+ *          
+ * @var ZcmUbloxRelPosNedStatus::ref_obs_missed
+ * @brief 1 if extrapolated reference observations were used to compute 
+ *        moving base solution this epoch heading_valid
+ *
+ * @var ZcmUbloxRelPosNedStatus::heading_valid
+ * @brief 1 if relative hrading position is valid 
+ *
+ * @var ZcmUbloxRelPosNedStatus::normalized
+ * @brief If the components of the relative position vector 
+ *        (including the high-precision parts) are normalized 
+ */
+struct ZcmUbloxRelPosNedStatus
+{
+   boolean valid;
+   boolean moving_base;
+   boolean ref_pos_missed;
+   boolean ref_obs_missed;
+   boolean heading_valid;
+   boolean normalized;
+} 
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmUbloxRelPosNed
+ * @brief Relative positioning information in NED frame
+ *
+ * @var ZcmUbloxRelPosNed::n
+ * @brief North component of relative position vector, m
+ *
+ * @var ZcmUbloxRelPosNed::e
+ * @brief East component of relative position vector, m
+ *    
+ * @var ZcmUbloxRelPosNed::d
+ * @brief Down component of relative position vector, m
+ *    
+ * @var ZcmUbloxRelPosNed::length
+ * @brief Length of the relative position vector, m
+ *          
+ * @var ZcmUbloxRelPosNed::heading
+ * @brief Heading of the relative position vector, deg
+ *          
+ * @var ZcmUbloxRelPosNed::acc_length
+ * @brief Accuracy of length of the relative position vector, m
+ *          
+ * @var ZcmUbloxRelPosNed::acc_heading
+ * @brief Accuracy of heading of the relative position vector, deg
+ *     
+ * @var ZcmUbloxRelPosNedStatus::status
+ * @brief Flags of relative positioning information
+ */
+struct ZcmUbloxRelPosNed
+{
+   double n;
+   double e;
+   double d;
+
+   double length;
+   double heading;
+
+   double acc_length;  
+   double acc_heading; 
+
+   ZcmUbloxRelPosNedStatus status;
+}
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmUbloxCarrierSolution
+ * @brief Carrier phase range solution status
+ *                  0 : NO    - no carrier phase range solution
+ *                  1 : FLOAT - carrier phase range solution with floating ambiguities
+ *                  2 : FIX   - carrier phase range solution with fixed ambiguities
+ *
+ */
+struct ZcmUbloxCarrierSolution
+{
+   int8_t v;
+    
+   const int8_t NO    = 0;
+   const int8_t FLOAT = 1;
+   const int8_t FIX   = 2;
+}
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmUbloxStatus
+ * @brief Flags from package "Navigation position velocity time solution"
+ *          
+ * @var ZcmUbloxStatus::carr_solution
+ * @brief Carrier phase range solution status
+ *          
+ * @var ZcmUbloxStatus::diff_solution
+ * @brief Flag of using differential corrections
+ *               ( ID : LABEL )
+ *                  0 : false - differential corrections wasn't used
+ *                  1 : true  - differential corrections was used
+ *
+ * @var ZcmUbloxStatus::gnss_fix
+ * @brief Valid GNSS fix flag:
+ *               ( ID : LABEL )
+ *                  0 : false - no valid fix
+ *                  1 : true  - valid fix (i.e within DOP & accuracy masks)
+ */
+struct ZcmUbloxStatus
+{
+   ZcmUbloxCarrierSolution carr_solution;
+
+   boolean diff_solution;
+   boolean gnss_fix;
+} 
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmUbloxMessageValidity
+ * @brief Message validity
+ *
+ * @var ZcmUbloxMessageValidity::v
+ * @brief Validity determined inside the decoder
+ *
+ *               ( ID : LABEL )
+ *                  0 : INVALID    - message is not valid (PVT message not received)
+ *                  1 : INCOMPLETE - not all messages received from the receiver (< 5)
+ *                  2 : VALID      - valid message 
+ *                                   (enough satellites, valid LLH, status = FIX_OK)
+ */
+struct ZcmUbloxMessageValidity
+{
+   int8_t v;
+    
+   const int8_t INVALID    = 0;
+   const int8_t INCOMPLETE = 1;
+   const int8_t VALID      = 2;
+}
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmUblox
+ * @brief The message contains information about GNSS position, 
+ *        velocity, time, solution, including accuracy
+ *          
+ * @var ZcmUblox::service
+ * @brief Service message
+ *          
+ * @var ZcmUblox::geodetic
+ * @brief Current geodetic coordinates
+ *          
+ * @var ZcmUblox::velocity
+ * @brief Receiver velocity NED, ECEF, 2D, 3D
+ *
+ * @var ZcmUblox::accuracy
+ * @brief Receiver accuracy estimate
+ *          
+ * @var ZcmUblox::mode
+ * @brief GNSS mode
+ *
+ * @var ZcmUblox::solution
+ * @brief Solution flag
+ *
+ * @var ZcmUblox::rel_pos_ned
+ * @brief Relative positioning information in NED frame
+ *
+ * @var ZcmUblox::status
+ * @brief Navigation position velocity time solution flags
+ *
+ * @var ZcmUblox::msg_validity
+ * @brief Message validity information
+ *       
+ * @var ZcmUblox::mean_sea_level   
+ * @brief Height above mean sea level, m
+ *       
+ * @var ZcmUblox::head_vehicle
+ * @brief heading of vehicle (2-D), this is only valid when headVehValid is set, 
+ *        otherwise the output is set to the heading of motion, deg
+ *
+ * @var ZcmUblox::satellites
+ * @brief Number of satellites used in solution
+ *
+ */
+struct ZcmUblox
+{
+   ZcmService service;
+    
+   ZcmGNSSGeodetic geodetic;
+   ZcmGNSSVelocity velocity;
+   ZcmGNSSAccuracy accuracy;
+
+   ZcmUbloxMode mode;
+   
+   ZcmUbloxMessageSolution solution;
+
+   ZcmUbloxRelPosNed rel_pos_ned;
+
+   ZcmUbloxStatus status;
+
+   ZcmUbloxMessageValidity msg_validity;
+
+   double mean_sea_level;
+
+   double head_vehicle;
+
+   int16_t satellites;
+}
+
+//=======================================================================================
+
+/**
+ * @struct ZcmUbloxAntennaBlock
+ * @brief Information on radio frequency block
+ *
+ * @var ZcmUbloxAntennaBlock::post_status
+ * @brief POST status word
+ *
+ * @var ZcmUbloxAntennaBlock::noise_level
+ * @brief Noise level as measured by the GPS core
+ *
+ * @var ZcmUbloxAntennaBlock::agc_count
+ * @brief AGC Monitor (counts SIGHI xor SIGLO, range 0 to 8191)
+ *
+ * @var ZcmUbloxAntennaBlock::id
+ * @brief ID radio freaquency block
+ *
+ * @var ZcmUbloxAntennaBlock::ant_state
+ * @brief Status of the antenna supervisor state machine: 
+ *          0 = UNDEF
+ *          1 = INIT
+ *          2 = OK
+ *          3 = SHORT
+ *          4 = OPEN
+ *
+ * @var ZcmUbloxAntennaBlock::ant_power
+ * @brief Current power status of antenna:
+ *          0 = OFF
+ *          1 = ON
+ *          2 = UNDEF
+ *
+ * @var ZcmUbloxAntennaBlock::jam_idx
+ * @brief CW jamming indicator, scaled 
+ *          0   = no CW jamming
+ *          255 = strong CW jamming
+ *     
+ * @var ZcmUbloxAntennaBlock::jam_status
+ * @brief output from Jamming/Interference Monitor:
+ *          0 = unknown or feature disabled
+ *          1 = ok - no significant jamming
+ *          2 = warning - interference visible but fix OK
+ *          3 = critical - interference visible and no fix
+ *
+ * @var ZcmUbloxAntennaBlock::mag_i
+ * @brief Magnitude of I-part of complex signal, scaled 
+ *          0   = no signal
+ *          255 = max magnitude
+ *
+ * @var ZcmUbloxAntennaBlock::mag_q
+ * @brief Magnitude of Q-part of complex signal, scaled 
+ *          0   = no signal
+ *          255 = max magnitude
+ *
+ * @var ZcmUbloxAntennaBlock::ofs_i
+ * @brief imbalance of I-part of complex signal, scaled 
+ *          - 128 = max negative imbalance 
+ *            127 = max positive imbalance
+ *
+ * @var ZcmUbloxAntennaBlock::ofs_q
+ * @brief imbalance of Q-part of complex signal, scaled 
+ *          - 128 = max negative imbalance
+ *            127 = max positive imbalance
+ *
+ */
+struct ZcmUbloxAntennaBlock
+{
+   int32_t post_status;
+   int32_t noise_level;
+
+   int16_t agc_count;
+   int16_t id;
+
+   byte ant_state;
+   byte ant_power;
+   
+   byte jam_idx;
+   byte jam_status;
+
+   byte mag_i;
+   byte mag_q;
+
+   int8_t ofs_i;
+   int8_t ofs_q;
+}
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmUbloxAntennaInfo
+ * @brief Information for each radio frequency block
+ *
+ * @var ZcmUbloxAntennaInfo::version
+ * @brief Version
+ *          
+ * @var ZcmUbloxAntennaInfo::count
+ * @brief Number of included RF blocks
+ *          
+ * @var ZcmUbloxAntennaInfo::blocks
+ * @brief Information of each radio frequency block
+ *     
+ */
+struct ZcmUbloxAntennaInfo 
+{
+   string version;
+
+   int16_t count;
+   ZcmUbloxAntennaBlock blocks[ count ];
+} 
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmUbloxPsmState
+ * @brief Information for each radio frequency block
+ *
+ * @var ZcmUbloxPsmState::v
+ * @brief - Stored value based on Power Save Mode state: 
+ *               ( ID : LABEL )
+ *                  0 : PSM                      - PSM is not active
+ *                  1 : ENABLED                  - enabled 
+ *                      (an intermediate state before Acquisition state)
+ *                  2 : ACQUISITION              - acquisition
+ *                  3 : TRACKING                 - tracking
+ *                  4 : POWER_OPTIMIZED_TRACKING - power Optimized Tracking
+ *                  5 : INACTIVE                 - inactive 
+ *     
+ */
+struct ZcmUbloxPsmState 
+{
+   int8_t v;
+    
+   const int8_t PSM                      = 0;
+   const int8_t ENABLED                  = 1;
+   const int8_t ACQUISITION              = 2;
+   const int8_t TRACKING                 = 3;
+   const int8_t POWER_OPTIMIZED_TRACKING = 4;
+   const int8_t INACTIVE                 = 5;
+} 
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmUbloxInfo
+ * @brief General information on the navigator
+ *
+ * @var ZcmUbloxInfo::service
+ * @brief Ublox message service information
+ *
+ * @var ZcmUbloxInfo::antenna_info
+ * @brief Antenna information
+ *
+ * @var ZcmUbloxInfo::psm_state
+ * @brief Information for each radio frequency block
+ *
+ */
+struct ZcmUbloxInfo
+{
+   ZcmService service;
+
+   ZcmUbloxAntennaInfo antenna_info;
+
+   ZcmUbloxPsmState psm_state;
+} 
+
+//=======================================================================================
+
+//=======================================================================================
+
+/**
+ * @}
+ */

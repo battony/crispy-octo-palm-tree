@@ -1,0 +1,478 @@
+/*!
+ * \addtogroup navigation
+ * \brief Specific In/Out types of navigation module
+ * \{
+ */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/*!
+ * \struct ZcmNavFilterCoordinates
+ * \brief Filtered locomotive coordinates
+ * 
+ * \var ZcmNavFilterCoordinates::llh
+ * \brief Filtered geodetic coordinates
+ *
+ * \var ZcmNavFilterCoordinates::validity
+ * \brief Coordinates validity indicator
+ */
+struct ZcmNavFilterCoordinates
+{
+    ZcmGNSSGeodetic llh;
+
+    boolean validity;
+}
+
+//---------------------------------------------------------------------------------------
+
+/*!
+ * \struct ZcmNavFilterMovementType
+ * \brief Direction of movement of the vehicle
+ *
+ * \var ZcmNavFilterMovementType::v
+ * \brief Stored value
+ *          UNDEF    - Undefined mode
+ *          STANDING - The vehicle is standing
+ *          FORWARD  - The vehicle is moving forward
+ *          BACKWARD - The vehicle is moving backward
+ */
+struct ZcmNavFilterMovementType
+{
+    int8_t v;
+
+    const int8_t UNDEF    = 0;
+    const int8_t STANDING = 1;
+    const int8_t FORWARD  = 2;
+    const int8_t BACKWARD = 3;   
+}
+
+//---------------------------------------------------------------------------------------
+
+/*!
+ * \struct ZcmNavFilterManeuver
+ * \brief Vehicle maneuver direction
+ *
+ * \var ZcmNavFilterManeuver::v
+ * \brief Stored value
+ *          UNDEF - Undefined mode
+ *          NONE  - No maneuver
+ *          LEFT  - Vehicle turns counterclockwise (decreasing bearing)
+ *          RIGHT - Vehicle turns clockwise (increasing bearing)
+ */
+struct ZcmNavFilterManeuver
+{
+    int8_t v;
+
+    const int8_t UNDEF = 0;
+    const int8_t NONE  = 1;
+    const int8_t LEFT  = 2;
+    const int8_t RIGHT = 3;
+}
+
+//---------------------------------------------------------------------------------------
+
+/*!
+ * \struct ZcmNavFilterMovement
+ * \brief Vehicle movement pattern
+ *
+ * \var ZcmNavFilterMovement::type
+ * \brief Direction of movement of the vehicle
+ *
+ * \var ZcmNavFilterMovement::maneuver
+ * \brief Vehicle maneuver direction
+ *
+ * \var ZcmNavFilterMovement::on_switch
+ * \brief An indication of the presence of any part of the vehicle body 
+ *        along the entire length of the turnout
+ *
+ * \var ZcmNavFilterMovement::validity
+ * \brief Movement validity indicator
+ */
+struct ZcmNavFilterMovement
+{
+    ZcmNavFilterMovementType type;
+
+    ZcmNavFilterManeuver maneuver;
+
+    boolean on_switch;
+
+    boolean validity;
+}
+
+//---------------------------------------------------------------------------------------
+
+/*!
+ * \struct ZcmNavFilterAccuracyNED
+ * \brief Determination of NED coordinates
+ *
+ * \var ZcmNavFilterAccuracyNED::n
+ * \brief Determination of coordinates in the direction of north
+ *
+ * \var ZcmNavFilterAccuracyNED::e
+ * \brief Determination of coordinates in the east direction
+ *
+ * \var ZcmNavFilterAccuracyNED::d
+ * \brief Determining coordinates in a direction perpendicular to the earth's surface
+ */
+struct ZcmNavFilterAccuracyNED
+{
+    float n;
+    float e;
+    float d;
+}
+
+//---------------------------------------------------------------------------------------
+
+/*!
+ * \struct ZcmNavFilterVelocity
+ * \brief Locomotive filtered velocity vector
+ * 
+ * \var ZcmNavFilterVelocity::ned
+ * \brief NED coordinates speed, m/s
+ * 
+ * \var ZcmNavFilterVelocity::speed
+ * \brief Velocity vector modulus, m/s
+ * 
+ * \var ZcmNavFilterVelocity::acceleration
+ * \brief 3-axis acceleration, m/s^2
+ * 
+ * \var ZcmNavFilterVelocity::jerk
+ * \brief Jerk velocity, m/s^3
+ *
+ * \var ZcmNavFilterVelocity::validity
+ * \brief Velocity validity indicator
+ */
+struct ZcmNavFilterVelocity
+{
+    ZcmNavFilterAccuracyNED ned;
+
+    float speed;
+    float acceleration;
+    float jerk;
+
+    boolean validity;
+}
+
+//---------------------------------------------------------------------------------------
+
+/*!
+ * \struct ZcmNavFilterDirection
+ * \brief Filtered directions
+ *
+ * \var ZcmNavFilterDirection::orientation
+ * \brief Orientation filtered angles, radians
+ *
+ * \var ZcmNavFilterDirection::course
+ * \brief Heading angle, radians
+ *
+ * \var ZcmNavFilterDirection::validity
+ * \brief Direction validity indicator
+ */
+struct ZcmNavFilterDirection
+{
+    ZcmIMUOrientation orientation;
+
+    float course;
+
+    boolean validity;
+}
+
+//---------------------------------------------------------------------------------------
+
+/*!
+ * \struct ZcmNavFilterAccuracyPosition
+ * \brief Accuracy of determination of position coordinates
+ *
+ * \var ZcmNavFilterAccuracyPosition::ned
+ * \brief Accuracy of determination of NED coordinates, meters
+ *
+ * \var ZcmNavFilterAccuracyPosition::integral
+ * \brief Integral coordinate determination accuracy, meters
+ */
+struct ZcmNavFilterAccuracyPosition
+{
+    ZcmNavFilterAccuracyNED ned;
+
+    float integral;
+}
+
+//---------------------------------------------------------------------------------------
+
+/*!
+ * \struct ZcmNavFilterAccuracyVelocity
+ * \brief Accuracy of determination of velocity vector
+ *
+ * \var ZcmNavFilterAccuracyVelocity::ned
+ * \brief Accuracy of determination of NED velocity vector, m/s
+ *
+ * \var ZcmNavFilterAccuracyVelocity::integral
+ * \brief Integral velocity vector determination accuracy, m/s
+ * 
+ * \var ZcmNavFilterAccuracyVelocity::acceleration
+ * \brief 3-axis acceleration accuracy, m/s^2
+ * 
+ * \var ZcmNavFilterAccuracyVelocity::jerk
+ * \brief Jerk velocity accuracy, m/s^3
+ */
+struct ZcmNavFilterAccuracyVelocity
+{
+    ZcmNavFilterAccuracyNED ned;
+
+    float integral;
+    float acceleration;
+    float jerk;
+}
+
+//---------------------------------------------------------------------------------------
+
+/*! 
+ * \struct ZcmNavFilterAccuracy
+ * \brief Accuracy of determination of localization parameters
+ *
+ * \var ZcmNavFilterAccuracy::position
+ * \brief Accuracy of determination of position coordinates, meters
+ *
+ * \var ZcmNavFilterAccuracy::velocity
+ * \brief Accuracy of determination of velocity vector, m/s
+ *
+ * \var ZcmNavFilterAccuracy::direction
+ * \brief Accuracy of filtered directions, radians
+ */
+struct ZcmNavFilterAccuracy
+{
+    ZcmNavFilterAccuracyPosition position;   
+
+    ZcmNavFilterAccuracyVelocity velocity;
+
+    ZcmNavFilterDirection direction;
+}
+
+//---------------------------------------------------------------------------------------
+
+/*!
+ * \struct ZcmNavFilter
+ * \brief Filtered data from the navigation module
+ *
+ * \var ZcmNavFilter::service
+ * \brief Service message
+ *
+ * \var ZcmNavFilter::coordinates
+ * \brief Filtered locomotive coordinates
+ *
+ * \var ZcmNavFilter::movement
+ * \brief Vehicle movement pattern
+ *
+ * \var ZcmNavFilter::velocity
+ * \brief Locomotive filtered speeds vector
+ *
+ * \var ZcmNavFilter::direction
+ * \brief Filtered directions
+ *
+ * \var ZcmNavFilter::accuracy
+ * \brief Accuracy of determination of localization parameters
+ *
+ * \var ZcmNavFilter::validity
+ * \brief Coordinates validity indicator
+ */
+struct ZcmNavFilter
+{
+    ZcmService service;
+
+    ZcmNavFilterCoordinates coordinates;
+
+    ZcmNavFilterMovement movement;
+
+    ZcmNavFilterVelocity velocity;
+
+    ZcmNavFilterDirection direction;
+
+    ZcmNavFilterAccuracy accuracy;
+}
+
+//=======================================================================================
+//=======================================================================================
+
+/*!
+ * \struct ZcmMapPicketage
+ * \brief Direction of movement according to map picketage
+ *
+ * \var ZcmMapPicketage::v
+ * \brief Stored value
+ *
+ *      UNDEF - direction undefined
+ *      ON    - by picket
+ *      OFF   - against picketage
+ */
+struct ZcmMapPicketage
+{
+    int8_t v;
+
+    const int8_t UNDEF = 0;
+    const int8_t ON    = 1;
+    const int8_t OFF   = 2;
+}
+
+//---------------------------------------------------------------------------------------
+
+/*!
+ * \struct ZcmMapPlatformDistance
+ * \brief Distances to reference points of the platform in the direction of travel
+ *
+ * \var ZcmMapPlatformDistance::near
+ * \brief Distance to platform nearest point base on direction
+ *
+ * \var ZcmMapPlatformDistance::stop_sign
+ * \brief Distance to the stop sign of the first carriage on the platform
+ *
+ * \var ZcmMapPlatformDistance::far
+ * \brief Distance to platform farthest point base on direction
+ */
+struct ZcmMapPlatformDistance
+{
+    float near;
+    float stop_sign;
+    float far;
+}
+
+//---------------------------------------------------------------------------------------
+
+/*!
+ * \struct ZcmMapPositionStd
+ * \brief Positioning error (RMS)
+ *
+ * \var ZcmMapPositionStd::along
+ * \brief Positioning error (RMS) along the route, meters
+ *
+ * \var ZcmMapPositionStd::across
+ * \brief Positioning error (RMS) across the route, meters
+ *
+ * \var ZcmMapPositionStd::dist_object
+ * \brief The error in calculating the distance to the object, meters
+ */
+struct ZcmMapPositionStd
+{
+    float along;
+    float across;
+    float dist_object;
+}
+
+//---------------------------------------------------------------------------------------
+
+/*!
+ * \struct ZcmMapPosition
+ * \brief Global position information from the locomotive navigation
+ *
+ * \var ZcmMapPosition::service
+ * \brief Service message
+ *
+ * \var ZcmMapPosition::picket
+ * \brief Direction of movement by map
+ *
+ * \var ZcmMapPosition::dist_to_platform
+ * \brief Distance to platform reference points, meters
+ *
+ * \var ZcmMapPosition::std
+ * \brief Confidence intervals, meters
+ *
+ * \var ZcmMapPosition::map_version
+ * \brief Version of map (tile) from database
+ *
+ * \var ZcmMapPosition::section_name
+ * \brief The name of the map section on which the locomotive is located
+ *
+ * \var ZcmMapPosition::next_object_name
+ * \brief The name of the next infrastructure object closest to the locomotive 
+ *        in the direction of travel (in the curve)
+ *
+ * \var ZcmMapPosition::next_object_distance
+ * \brief Distance in a curve to the next infrastructure object, meters
+ *
+ * \var ZcmMapPosition::passed_distance
+ * \brief Distance traveled from last balise, meters
+ *
+ * \var ZcmMapPosition::line_coord
+ * \brief Linear coordinate value for increasing picketage, meters
+ *
+ * \var ZcmMapPosition::map_id
+ * \brief Map (tile) unique RZD ID
+ *
+ * \var ZcmMapPosition::last_balise
+ * \brief ID of the last passed balise
+ *
+ * \var ZcmMapPosition::geoline_id
+ * \brief ID of the current geoline
+ *
+ * \var ZcmMapPosition::track_number
+ * \brief Track number (for track sections - 0)
+ *
+ * \var ZcmMapPosition::validity
+ * \brief Data validity indicator
+ */
+struct ZcmMapPosition
+{
+    ZcmService service;    
+
+    ZcmMapPicketage picket;
+
+    ZcmMapPlatformDistance dist_to_platform;
+
+    ZcmMapPositionStd std;
+
+    string map_version;
+
+    string section_name;    
+
+    string next_object_name;
+
+    float next_object_distance;
+
+    float passed_distance;
+
+    float line_coord;
+
+    int32_t map_id;
+
+    int32_t last_balise;
+
+    int32_t geoline_id;
+
+    int32_t track_number;    
+
+    boolean validity;
+}
+
+/*!
+ * \struct ZcmLidarSLAM
+ * \brief Navigation point correction
+ *
+ * \var ZcmLidarSLAM::service
+ * \brief Service information
+ *
+ * \var ZcmLidarSLAM::bias_ned
+ * \brief Positioning correction ( relatively to stop sign = relatively locomotive base point )
+ *
+ * \var ZcmLidarSLAM::acc_ned
+ * \brief Positioning correction accuracy in NED ( relatively to stop sign )
+ *
+ * \var ZcmLidarSLAM::validity
+ * \brief Message validity status
+ */
+struct ZcmLidarSLAM
+{
+    ZcmService service;
+
+    ZcmNavFilterAccuracyNED bias_ned;
+    ZcmNavFilterAccuracyNED acc_ned;
+    
+    boolean validity;
+}
+
+//=======================================================================================
+
+//=======================================================================================
+
+/*!
+ * \}
+ */

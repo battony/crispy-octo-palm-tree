@@ -1,0 +1,81 @@
+/**
+  * \addtogroup imu
+  * @brief Messages for working with inertial measurement unit.
+  * @{
+  */
+
+//=======================================================================================
+
+//=======================================================================================
+ 
+/**
+ * @struct ZcmIMUVelocity
+ * @brief - IMU velocity
+ *
+ * @var ZcmIMUVelocity::x
+ * @brief - velocity x component
+ *          
+ * @var ZcmIMUVelocity::y 
+ * @brief - velocity y component
+ *          
+ * @var ZcmIMUVelocity::z    
+ * @brief - velocity z component
+ */
+struct ZcmIMUVelocity
+{
+   float x;
+   float y;
+   float z;
+} 
+
+//=======================================================================================
+ 
+/**
+ * @struct ZcmIMUAcceleration
+ * @brief - IMU acceleration
+ *
+ * @var ZcmIMUAcceleration::x
+ * @brief - acceleration x component
+ *          
+ * @var ZcmIMUAcceleration::y
+ * @brief - acceleration y component
+ *          
+ * @var ZcmIMUAcceleration::z
+ * @brief - acceleration z component
+ */
+struct ZcmIMUAcceleration
+{
+   float x;
+   float y;
+   float z;
+} 
+ 
+//=======================================================================================
+
+/**
+ * @struct ZcmIMUOrientation
+ * @brief IMU orientation angles
+ *
+ * @var ZcmIMUOrientation::roll
+ * @brief - roll
+ *          
+ * @var ZcmIMUOrientation::pitch  
+ * @brief - pitch
+ *          
+ * @var ZcmIMUOrientation::yaw         
+ * @brief - yaw
+ */
+struct ZcmIMUOrientation 
+{
+   float roll;
+   float pitch;
+   float yaw;
+}
+
+//=======================================================================================
+
+//=======================================================================================
+
+/**
+  * @}
+  */

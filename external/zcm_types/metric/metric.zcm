@@ -1,0 +1,89 @@
+/**
+  * \addtogroup metric
+  * \brief Metric message
+  * \{
+  */
+
+//=======================================================================================
+
+/**
+ * \struct ZcmMetric
+ * \brief Metric message
+ *
+ * \var key
+ * \brief metric name
+ *
+ * \var value
+ * \brief quantitative indicator
+ *
+ * \var is_counter
+ * \brief flag for metric analysis logic
+ *		true  : disable value analysis; increasing the counter by key
+ *		false : enable value analysis
+ *
+ * \var proc_type
+ * \brief Type of the desired processing method for metric value
+ *        All methods are time period depended
+ *
+ * \var ZcmMetric::UNDEF
+ * \brief Undefined processing method
+ *
+ * \var ZcmMetric::FIRST
+ * \brief First metric value is used
+ *
+ * \var ZcmMetric::LAST
+ * \brief Last metric value is used
+ *
+ * \var ZcmMetric::MAX
+ * \brief Max metric value is used
+ *
+ * \var ZcmMetric::MIN
+ * \brief Min metric value is used
+ *
+ * \var ZcmMetric::AVERAGE
+ * \brief Simple moving average method with time window
+ */
+struct ZcmMetric
+{
+	string  key;
+	float  	value;
+	boolean is_counter;
+
+    int8_t proc_type;
+
+    const int8_t UNDEF   = 0;
+    const int8_t FIRST   = 1;
+    const int8_t LAST    = 2;
+    const int8_t MAX     = 3;
+    const int8_t MIN     = 4;
+    const int8_t AVERAGE = 5;
+}
+
+//=======================================================================================
+
+/**
+ * \struct ZcmMetric
+ * \brief Metrics list
+ *
+ * \var ZcmObjects::service
+ * \brief service working message
+ *
+ * \var size
+ * \brief metrics count
+ *
+ * \var data
+ * \brief metrics container
+ */
+struct ZcmMetrics
+{
+    ZcmService service;
+
+	int16_t size;
+	ZcmMetric data [ size ];
+}
+
+//=======================================================================================
+
+/**
+  * \}
+  */

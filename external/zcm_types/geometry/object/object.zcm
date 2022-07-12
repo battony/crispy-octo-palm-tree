@@ -1,0 +1,429 @@
+/**
+  * \addtogroup geometry
+  * \brief All object types
+  * \{
+  */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/** \struct ZcmObjectSize
+ * \brief Common object sizes
+ *
+ * \var ZcmObjectSize::v
+ * \brief Stored value
+ */
+struct ZcmObjectSize
+{
+	int8_t v;
+
+	const int8_t UNDEF  = 0;
+	const int8_t SMALL  = 1;
+	const int8_t MEDIUM = 2;
+	const int8_t BIG    = 3;
+}
+
+//=======================================================================================
+
+/** \struct ZcmObjectPosition
+ *
+ * \var ZcmObjectPosition::v
+ * \brief Stored value
+ * 
+ * UNDEF - unknown
+ * STATIC  - object is not moving
+ * DYNAMIC - object is moving
+ * 
+ * For animate objects:
+ *
+ * LAY  - object lies
+ * SEAT - object is seat
+ */
+struct ZcmObjectPosition
+{
+	int8_t v;
+
+	const int8_t UNDEF   = 0;
+	const int8_t STATIC  = 1;
+	const int8_t DYNAMIC = 2;
+	const int8_t LAY     = 3;
+	const int8_t SEAT    = 4;
+	const int8_t OTHER   = 5;
+}
+
+//=======================================================================================
+
+/** \struct ZcmObjectClass
+ *
+ * \var ZcmObjectClass::v
+ * \brief Stored value
+ *
+ * UNDEF - unknown
+ * AUTO  - automobile transport
+ * INFRA - railway infrastructure object
+ */
+struct ZcmObjectClass
+{
+	int8_t v;
+
+	const int8_t UNDEF  = 0;
+	const int8_t PERSON = 1;
+	const int8_t TRAIN  = 2;
+	const int8_t AUTO   = 3;
+	const int8_t ANIMAL = 4;
+	const int8_t INFRA  = 5;
+	const int8_t OTHER  = 6;
+}
+
+//=======================================================================================
+
+//! \struct ZcmObjectPerson
+struct ZcmObjectPerson
+{
+	const int8_t UNDEF = 0;
+	const int8_t ADULT = 1;
+	const int8_t KID   = 2;
+}
+
+//=======================================================================================
+
+/** \struct ZcmObjectTrain
+ * \brief train object types
+ *
+ * UNDEF    - unknown
+ * LOCO     - locomotive
+ * HALF     - gondola car
+ * BOX      - boxcar
+ * CISTERN  - cistern on platform
+ * HOPPER   - hopper dispenser
+ * PLATFORM - low empty platform
+ * DUMP     - dumpcar
+ * OTHER    - something else
+ */
+struct ZcmObjectTrain
+{
+	const int8_t UNDEF	  = 0;
+	const int8_t LOCO	  = 1;
+	const int8_t HALF     = 2;
+	const int8_t BOX      = 3;
+	const int8_t CISTERN  = 4;
+	const int8_t HOPPER   = 5;
+	const int8_t PLATFORM = 6;
+	const int8_t DUMP 	  = 7;
+	const int8_t OTHER 	  = 8;
+}
+
+//=======================================================================================
+
+/** \struct ZcmObjectAuto
+ * \brief automobile transport types
+ */
+struct ZcmObjectAuto
+{
+	const int8_t UNDEF = 0;
+	const int8_t CAR   = 1;
+	const int8_t BUS   = 2;
+	const int8_t MOTO  = 3;
+	const int8_t BIKE  = 4;
+	const int8_t OTHER = 5;
+}
+
+//=======================================================================================
+
+/** \struct ZcmObjectInfrastructure
+ * \brief railway infrastructure object
+ *
+ * UNDEF  	 - unknown
+ * OTHER     - other types
+ *
+ * LIGHT  	 - traffic light
+ * SWITCH 	 - single/double switch
+ * SUPPORT	 - railway support
+ * STOP   	 - first carriage stop sign
+ * JOINT     - insulating joint
+ * DEADEND   - end point
+ * PLATFORM  - station start/end
+ * PICKET    - picket pole
+ * BRIDGE    - bridge building
+ * CROSSING  - railway crossing
+ * TUNNEL    - tunnel building
+ * REFERENCE - reference infrastructure object
+ * BALISE    - virtual balisa
+ * GENERATOR - track circuit generator
+ * RECEIVER  - track circuit receiver
+ */
+struct ZcmObjectInfrastructure
+{
+	const int8_t UNDEF     = 0;
+    const int8_t OTHER     = 1;
+
+	const int8_t LIGHT     = 2;
+	const int8_t SWITCH    = 3;
+	const int8_t SUPPORT   = 4;
+	const int8_t STOP      = 5;
+	const int8_t JOINT     = 6;
+	const int8_t DEADEND   = 7;
+	const int8_t PLATFORM  = 8;
+	const int8_t PICKET    = 9;
+    const int8_t BRIDGE    = 10;
+    const int8_t CROSSING  = 11;
+    const int8_t TUNNEL    = 12;
+    const int8_t REFERENCE = 13;
+    const int8_t BALISE    = 14;
+    const int8_t GENERATOR = 15;
+    const int8_t RECEIVER  = 16;
+}
+
+//=======================================================================================
+
+/** \struct ZcmObjectInfrastructureLight
+ * \brief Indications of traffic lights of all types
+ *
+ * UNDEF - undef
+ * OTHER - other traffic light interpretations
+ * ON    - movement allowed
+ * OFF   - movement prohibited
+ */
+struct ZcmObjectInfrastructureLight
+{
+  const int8_t UNDEF = 0;
+  const int8_t OTHER = 1;
+  
+  const int8_t ON  = 2;
+  const int8_t OFF = 3;
+}
+
+//=======================================================================================
+
+
+
+//=======================================================================================
+
+/** \struct ZcmObjectGeometryF
+ * \brief object representation as a bounding box (ISO 8855:2011)
+ *
+ *    H 		H - height
+ *    |   D     D - depth
+ *    | /		W - width
+ * bl ./___ W
+ *
+ * \var ZcmObjectGeometryF::bl
+ * \brief bottom left point
+ *
+ * \var ZcmObjectGeometryF::base
+ * \brief object tracking point, varies depending on the algorithm
+ *
+ * \var ZcmObjectGeometryF::width
+ * \var ZcmObjectGeometryF::depth
+ * \var ZcmObjectGeometryF::height
+ */
+struct ZcmObjectGeometryF
+{
+	ZcmPointF bl;
+    ZcmPointF base;
+
+    float width;
+    float depth;
+    float height;
+}
+
+//=======================================================================================
+
+/** \struct ZcmObjectGeometryD
+ * \brief object representation as a bounding box (ISO 8855:2011)
+ *
+ *    H         H - height
+ *    |   D     D - depth
+ *    | /       W - width
+ * bl ./___ W
+ *
+ * \var ZcmObjectGeometryD::bl
+ * \brief bottom left point
+ *
+ * \var ZcmObjectGeometryD::base
+ * \brief object tracking point, varies depending on the algorithm
+ *
+ * \var ZcmObjectGeometryD::width
+ * \var ZcmObjectGeometryD::depth
+ * \var ZcmObjectGeometryD::height
+ */
+struct ZcmObjectGeometryD
+{
+    ZcmPointD bl;
+    ZcmPointD base;
+
+    double width;
+    double depth;
+    double height;
+}
+
+//=======================================================================================
+
+/** \struct ZcmObjectF
+ * \brief detected object info
+ *
+ * \var ZcmObjectF::box
+ * \brief bounding box
+ *
+ * \var ZcmObjectF::accuracy
+ * \brief accuracies for bounding box values
+ *
+ * \var ZcmObjectF::size
+ * \brief as ZcmObjectSize if known
+ *
+ * \var ZcmObjectF::position
+ * \brief as ZcmObjectPosition if known
+ *
+ * \var ZcmObjectF::type
+ * \brief as ZcmObjectClass if known
+ *
+ * \var ZcmObjectF::subclass
+ * \brief based on ZcmObjectClass if known
+ *
+ * \var ZcmObject::extra
+ * \brief Additional info for subclass classification
+ *
+ * \var ZcmObjectF::angle
+ * \brief box angle in range [0; 180) starting from I quarter
+ *
+ * \var ZcmObjectF::probability
+ * \brief probability recognition [0..1]
+ *
+ * \var ZcmObjectF::contour_count
+ * \brief number of contour points in a cluster
+ *
+ * \var ZcmObjectF::contour
+ * \brief vector of contour points in a cluster
+ */
+struct ZcmObjectF
+{
+	ZcmObjectGeometryF box;
+	ZcmObjectGeometryF accuracy;
+
+	ZcmObjectSize size;
+	ZcmObjectPosition position;
+	ZcmObjectClass type;	
+	int8_t subclass;
+    int8_t extra;
+    
+    float angle;
+
+	float probability;
+
+	int32_t contour_count;
+    ZcmPointF contour [ contour_count ];
+}
+
+//=======================================================================================
+
+/** \struct ZcmObjectD
+ * \brief detected object info
+ *
+ * \var ZcmObjectD::box
+ * \brief bounding box
+ *
+ * \var ZcmObjectD::accuracy
+ * \brief accuracies for bounding box values
+ *
+ * \var ZcmObjectD::size
+ * \brief as ZcmObjectSize if known
+ *
+ * \var ZcmObjectD::position
+ * \brief as ZcmObjectPosition if known
+ *
+ * \var ZcmObjectD::type
+ * \brief as ZcmObjectClass if known
+ *
+ * \var ZcmObjectD::subclass
+ * \brief based on ZcmObjectClass if known
+ *
+ * \var ZcmObjectD::angle
+ * \brief box angle in range [0; 180) starting from I quarter
+ *
+ * \var ZcmObjectD::probability
+ * \brief probability recognition [0..1]
+ *
+ * \var ZcmObjectD::contour_count
+ * \brief number of contour points in a cluster
+ *
+ * \var ZcmObjectD::contour
+ * \brief vector of contour points in a cluster
+ */
+struct ZcmObjectD
+{
+    ZcmObjectGeometryD box;
+    ZcmObjectGeometryD accuracy;
+
+    ZcmObjectSize size;
+    ZcmObjectPosition position;
+    ZcmObjectClass type;    
+    int8_t subclass;
+    
+    double angle;
+
+    double probability;
+
+    int32_t contour_count;
+    ZcmPointD contour [ contour_count ];
+}
+
+//=======================================================================================
+
+/** \struct ZcmObjectsF
+ * \brief list of detected objects
+ *
+ * \var ZcmObjectsF::service
+ * \brief service working message
+ *
+ * \var ZcmObjectsF::sensor
+ * \brief source ZcmSensor
+ *
+ * \var ZcmObjectsF::size
+ * \brief count of detected objects
+ *
+ * \var ZcmObjectsF::data
+ * \brief detected objects
+ */
+struct ZcmObjectsF
+{
+    ZcmService service;
+
+	ZcmSensor sensor;
+
+	int32_t size;
+    ZcmObjectF data [ size ];
+}
+
+//=======================================================================================
+
+/** \struct ZcmObjectsD
+ * \brief list of detected objects
+ *
+ * \var ZcmObjectsD::service
+ * \brief service working message
+ *
+ * \var ZcmObjectsD::sensor
+ * \brief source ZcmSensor
+ *
+ * \var ZcmObjectsD::size
+ * \brief count of detected objects
+ *
+ * \var ZcmObjectsD::data
+ * \brief detected objects
+ */
+struct ZcmObjectsD
+{
+    ZcmService service;
+
+    ZcmSensor sensor;
+
+    int32_t size;
+    ZcmObjectD data [ size ];
+}
+
+//=======================================================================================
+
+/**
+  * \}
+  */

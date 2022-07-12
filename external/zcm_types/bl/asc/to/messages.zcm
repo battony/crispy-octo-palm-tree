@@ -1,0 +1,304 @@
+/*!
+ * \addtogroup business_logic
+ * \brief For interaction with Automatic Shunting Center (ASC) structs.
+ * \{
+ */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/*!
+ * \struct ObuHeader
+ * \brief Data required to be transmitted in every message from Train to Track.
+ *
+ * \var ObuHeader::time
+ * \brief Message sent time (T_TRAIN).
+ *
+ * \var ObuHeader::nid_engine
+ * \brief ETCS identificator (NID_ENGINE).
+ */
+struct ObuHeader
+{
+    int32_t time;
+
+    int32_t nid_engine;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct ValidatedTrainDataMsg
+ * \brief Message 129. Validated Train Data.
+ *
+ * \var ValidatedTrainDataMsg::header
+ * \brief  Data required to be transmitted in every message from Train to Track.
+ *
+ * \var ValidatedTrainDataMsg::position
+ * \brief Position Report.
+ *
+ * \var ValidatedTrainDataMsg::number
+ * \brief Operational train running number.
+ *
+ * \var ValidatedTrainDataMsg::data
+ * \brief Validated train data.
+ */
+struct ValidatedTrainDataMsg
+{
+	ObuHeader header;
+
+	PositionReportPkg position;
+
+	TrainRunningNumberPkg number;
+
+	ValidatedTrainDataPkg data;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct MARequestMsg
+ * \brief Message 132. MA Request.
+ *
+ * \var MARequestMsg::header
+ * \brief  Data required to be transmitted in every message from Train to Track.
+ *
+ * \var MARequestMsg::position
+ * \brief Position Report.
+ *
+ * \var MARequestMsg::reason
+ * \brief Reason for request (Q_MARQSTREASON).
+ */
+struct MARequestMsg
+{
+	ObuHeader header;
+
+	PositionReportPkg position;
+
+	int8_t reason;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct PositionReportMsg
+ * \brief Message 136 Train Position Report.
+ *
+ * \var PositionReportMsg::header
+ * \brief  Data required to be transmitted in every message from Train to Track.
+ *
+ * \var PositionReportMsg::position
+ * \brief Position Report.
+ *
+ * \var PositionReportMsg::number
+ * \brief Operational train running number.
+ */
+struct PositionReportMsg
+{
+	ObuHeader header;
+
+    PositionReportPkg position;
+
+    TrainRunningNumberPkg number;
+}
+
+//=======================================================================================
+/*!
+ * \struct AckMsg
+ * \brief Message 146 Acknowledgement.
+ *
+ * \var AckMsg::header
+ * \brief Data required to be transmitted in every message from Train to Track.
+ *
+ * \var AckMsg::confirmation_time;
+ * \brief Time to send a confirmed message (T_TRAIN).
+ */
+struct AckMsg
+{
+	ObuHeader header;
+
+    int32_t confirmation_time;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct EmergencyStopAckMsg
+ * \brief Message 147 Acknowledgement of Emergency Stop.
+ *
+ * \var EmergencyStopAckMsg::header
+ * \brief  Data required to be transmitted in every message from Train to Track.
+ *
+ * \var EmergencyStopAckMsg::es_id
+ * \brief  Emergency stop message identifier (NID_EM).
+ *
+ * \var EmergencyStopAckMsg::is_stop
+ * \brief Emergency stop confirmation result (Q_EMERGENCYSTOP).
+ *
+ * \var EmergencyStopAckMsg::position
+ * \brief Position Report.
+ */
+struct EmergencyStopAckMsg
+{
+	ObuHeader header;
+
+    int8_t es_id;
+
+    boolean is_stop;
+
+    PositionReportPkg position;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct EOFMsg
+ * \brief Message 150 End of Mission.
+ *
+ * \var EOFMsg::header
+ * \brief Data required to be transmitted in every message from Train to Track.
+ *
+ * \var EOFMsg::position
+ * \brief Position Report.
+ */
+struct EOFMsg
+{
+	ObuHeader header;
+
+    PositionReportPkg position;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct NoCVSMsg
+ * \brief Message 154 No compatible version supported.
+ *
+ * \var NoCVSMsg::header
+ * \brief Data required to be transmitted in every message from Train to Track.
+ */
+struct NoCVSMsg
+{
+	ObuHeader header;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct CSInitMsg
+ * \brief Message 155 Initiation of a communication session.
+ *
+ * \var CSInitMsg::header
+ * \brief  Data required to be transmitted in every message from Train to Track.
+ *
+ * \var CSInitMsg::number;
+ * \brief Operational train running number.
+ */
+struct CSInitMsg
+{
+	ObuHeader header;
+
+	TrainRunningNumberPkg number;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct TerminationCSMsg
+ * \brief Message 156 Termination of a communication session.
+ *
+ * \var TerminationCSMsg::header
+ * \brief  Data required to be transmitted in every message from Train to Track.
+ */
+struct TerminationCSMsg
+{
+	ObuHeader header;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct MissionStartMsg
+ * \brief Message 157 Start Of Mission Position Report.
+ *
+ * \var MissionStartMsg::header
+ * \brief  Data required to be transmitted in every message from Train to Track.
+ *
+ * \var MissionStartMsg::number;
+ * \brief Operational train running number.
+ *
+ * \var MissionStartMsg::position
+ * \brief Position Report.
+ *
+ * \var MissionStartMsg::status
+ * \brief Location data status (Q_STATUS).
+ *
+ * \var MissionStartMsg::is_appdata
+ * \brief Availability flag of 44 packages.
+ *
+ * \var MissionStartMsg::data
+ * \brief Used to transfer data for applications.
+ */
+struct MissionStartMsg
+{
+	ObuHeader header;
+
+	TrainRunningNumberPkg number;
+
+    PositionReportPkg position;
+
+	boolean status;
+
+	boolean is_appdata; 
+    
+    AppDataFromObu data;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct SessionEstablishedMsg
+ * \brief Message 159 Session established.
+ *
+ * \var SessionEstablishedMsg::header
+ * \brief Data required to be transmitted in every message from Train to Track.
+ */
+struct SessionEstablishedMsg
+{
+	ObuHeader header;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct ActualDistanceMsg
+ * \brief Message 161 Actual Distance.
+ *
+ * \var ActualDistanceMsg::header
+ * \brief  Data required to be transmitted in every message from Train to Track.
+ *
+ * \var ActualDistanceMsg::distance
+ * \brief Actual distance in meters.
+ *
+ * \var ActualDistanceMsg::allowed_speed
+ * \brief Allowed travel speed.
+ *
+ * \var ActualDistanceMsg::distance_to_target
+ * \brief Distance to target in meters.
+ */
+struct ActualDistanceMsg
+{
+	ObuHeader header;
+
+	int16_t    distance;
+
+	int16_t    allowed_speed;
+
+    int16_t    distance_to_target;
+}
+
+//=======================================================================================
+
+/*!
+ * \}
+ */

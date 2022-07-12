@@ -1,0 +1,41 @@
+/*!
+ * \addtogroup orchestra
+ * \brief Data orchestration service overhead messages
+ * \{
+ */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/*!
+ * \struct ZcmOrchestra
+ * \brief Orchestration service message
+ *
+ * \var ZcmOrchestra::service
+ * \brief Service message
+ *
+ * \var ZcmOrchestra::is_forward
+ * \brief Flag if the reversor is turned forward
+ *
+ * \var ZcmOrchestra::is_backward
+ * \brief Flag if the reversor is turned backward
+ *
+ * \var ZcmOrchestra::active
+ * \brief Current active sensor location info
+ */
+struct ZcmOrchestra
+{
+	ZcmService service;
+
+	boolean is_forward;
+	boolean is_backward;
+
+	ZcmSensorLocation active;
+}
+
+//=======================================================================================
+
+/*!
+ * \}
+ */

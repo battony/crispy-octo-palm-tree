@@ -1,0 +1,320 @@
+/**
+ * \addtogroup gnss
+ * @brief Messages for working with gnss sensors.
+ * @{
+ */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/**
+ * @struct ZcmGNSSGeocentric
+ * @brief ECEF coordinates
+ *
+ * @var ZcmGNSSGeocentric::x
+ * @brief ECEF X coordinate, m
+ *          
+ * @var ZcmGNSSGeocentric::y  
+ * @brief ECEF Y coordinate, m
+ *          
+ * @var ZcmGNSSGeocentric::z         
+ * @brief ECEF Z coordinate, m
+ *
+ */
+struct ZcmGNSSGeocentric 
+{
+   double x;
+   double y;
+   double z;
+} 
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmGNSSGeodetic
+ * @brief geodetic coordinates
+ *          
+ * @var ZcmGNSSGeodetic::lat
+ * @brief latitude, deg
+ *
+ * @var ZcmGNSSGeodetic::lon
+ * @brief longitude, deg
+ *          
+ * @var ZcmGNSSGeodetic::height
+ * @brief height above ellipsoid, m
+ *          
+ */
+struct ZcmGNSSGeodetic 
+{
+   double lat;
+   double lon;
+   double height;
+} 
+
+//---------------------------------------------------------------------------------------
+ 
+/**
+ * @struct ZcmGNSS_UTM
+ * @brief UTM coordinate
+ *          
+ * @var ZcmGNSS_UTM::easting  
+ * @brief east coordinate, m
+ *          
+ * @var ZcmGNSS_UTM::northing         
+ * @brief north coordinte, m
+ *
+ * @var ZcmGNSS_UTM::zone_letter
+ * @brief zone letter
+ *
+ * @var ZcmGNSS_UTM::zone
+ * @brief zone number (1 to 60)
+ *          
+ */
+struct ZcmGNSS_UTM 
+{
+   double easting;
+   double northing;
+
+   string zone_letter;
+
+   byte zone;
+} 
+
+//=======================================================================================
+
+/**
+ * @struct ZcmGNSSVelocityNED
+ * @brief Receiver NED velocity
+ *
+ * @var ZcmGNSSVelocityNED::n
+ * @brief NED north velocity, m/s
+ *          
+ * @var ZcmGNSSVelocityNED::e  
+ * @brief NED east velocity, m/s
+ *          
+ * @var ZcmGNSSVelocityNED::d         
+ * @brief NED down velocity, m/s
+ */
+struct ZcmGNSSVelocityNED
+{
+   double n;
+   double e;
+   double d;
+}
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmGNSSVelocityCS
+ * @brief Speed in projection
+ *
+ * @var ZcmGNSSVelocityCS::d2
+ * @brief Ground Speed (2-D), m/s
+ *          
+ * @var ZcmGNSSVelocityCS::d3
+ * @brief Speed (3-D), m/s
+ *
+ */
+struct ZcmGNSSVelocityCS
+{
+   float d2;
+   float d3;
+}
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmGNSSVelocity
+ * @brief Receiver velocity   
+ *
+ * @var ZcmGNSSVelocity::ned
+ * @brief Receiver NED velocity
+ *
+ * @var ZcmGNSSVelocity::cs
+ * @brief Speed in projections 2D/3D
+ *
+ * @var ZcmGNSSVelocity::head_motion
+ * @brief Heading of motion (2-D), deg
+ *
+ */
+struct ZcmGNSSVelocity 
+{
+   ZcmGNSSVelocityNED ned;  
+   ZcmGNSSVelocityCS cs;  
+
+   double head_motion;
+}
+
+//=======================================================================================
+
+/**
+ * @struct ZcmGNSSAccuracyStd
+ * @brief std accuracy
+ *
+ * @var ZcmGNSSAccuracyStd::horizontal
+ * @brief Horizontal accuracy estimate, m
+ *          
+ * @var ZcmGNSSAccuracyStd::vertical  
+ * @brief Vertical accuracy estimate, m
+ *          
+ * @var ZcmGNSSAccuracyStd::position          
+ * @brief Position Accuracy Estimate, m
+ *
+ * @var ZcmGNSSAccuracyStd::velocity 
+ * @brief Speed accuracy estimate, m/s
+ *          
+ * @var ZcmGNSSAccuracyStd::heading  
+ * @brief Heading accuracy estimate (both motion and vehicle), deg
+ *          
+ */
+struct ZcmGNSSAccuracyStd 
+{
+   double horizontal;
+   double vertical;
+   double position;
+   double velocity;
+   double heading;  
+}
+
+//---------------------------------------------------------------------------------------
+ 
+/**
+ * @struct ZcmGNSSAccuracyDOP
+ * @brief DOP accuracy
+ *
+ * @var ZcmGNSSAccuracyDOP::position
+ * @brief Position DOP
+ *          
+ * @var ZcmGNSSAccuracyDOP::geometric
+ * @brief Geometric DOP
+ *          
+ * @var ZcmGNSSAccuracyDOP::vertical
+ * @brief Vertical DOP
+ *
+ * @var ZcmGNSSAccuracyDOP::horizontal
+ * @brief Horizontal DOP
+ *          
+ * @var ZcmGNSSAccuracyDOP::northing
+ * @brief Northing DOP
+ *          
+ * @var ZcmGNSSAccuracyDOP::easting
+ * @brief Easting DOP
+ *          
+ */
+struct ZcmGNSSAccuracyDOP 
+{
+   float position;
+   float geometric;
+   float vertical;
+   float horizontal;
+   float northing;
+   float easting;   
+}
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmGNSSMessageSolution
+ * @brief Message solution type
+ *
+ * @var ZcmGNSSMessageSolution::v  
+ * @brief Solution type
+ *        ( ID : LABEL )
+ *          0 : FIX_NO        - no fix
+ *          1 : FIX_DEAD      - dead reckoning only
+ *          2 : FIX_2D        - 2D-fix
+ *          3 : FIX_3D        - 3D-fix
+ *          4 : FIX_GNSS_DEAD - GNSS + dead reckoning combined
+ *          5 : FIX_TIME      - time only fix
+ *     
+ */
+struct ZcmGNSSMessageSolution
+{
+   int8_t v;
+    
+   const int8_t FIX_NO        = 0;
+   const int8_t FIX_DEAD      = 1;
+   const int8_t FIX_2D        = 2;
+   const int8_t FIX_3D        = 3;
+   const int8_t FIX_GNSS_DEAD = 4;
+   const int8_t FIX_TIME      = 5;
+} 
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmGNSSMessageValidity
+ * @brief Message validity
+ *
+ * @var ZcmGNSSMessageValidity::v
+ * @brief Validity determined inside the decoder
+ *
+ *               ( ID : LABEL )
+ *                  0 : INVALID    - message is not valid (PVT message not received)
+ *                  1 : INCOMPLETE - not all messages received from the receiver (< 5)
+ *                  2 : VALID      - valid message 
+ *                                   (enough satellites, valid LLH, status = FIX_OK)
+ */
+struct ZcmGNSSMessageValidity
+{
+   int8_t v;
+    
+   const int8_t INVALID    = 0;
+   const int8_t INCOMPLETE = 1;
+   const int8_t VALID      = 2;
+}
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmGNSSAdditional 
+ * @brief Additional GNSS values
+ *
+ * @var ZcmGNSSAdditional::mean_sea_level   
+ * @brief Height above mean sea level, m
+ *          
+ * @var ZcmGNSSAdditional::head_vehicle
+ * @brief heading of vehicle (2-D), this is only valid when headVehValid is set, 
+ *        otherwise the output is set to the heading of motion, deg
+ *
+ * @var ZcmGNSSAdditional::satellites
+ * @brief Number of satellites used in solution
+ *          
+ */
+struct ZcmGNSSAdditional
+{
+   double mean_sea_level;
+    
+   double head_vehicle;
+
+   int16_t satellites;
+}
+
+//---------------------------------------------------------------------------------------
+
+/**
+ * @struct ZcmGNSSAccuracy 
+ * @brief Receiver accuracy estimate
+ *
+ * @var ZcmGNSSAccuracy::std
+ * @brief Horizontal accuracy estimate
+ *          
+ * @var ZcmGNSSAccuracy::dop  
+ * @brief DOP accuracy
+ *          
+ */
+struct ZcmGNSSAccuracy 
+{
+   ZcmGNSSAccuracyStd std;
+    
+   ZcmGNSSAccuracyDOP dop;
+} 
+
+//=======================================================================================
+
+//=======================================================================================
+
+/**
+ * @}
+ */

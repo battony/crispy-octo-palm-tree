@@ -1,0 +1,102 @@
+/**
+  * \addtogroup geometry
+  * \brief Messages with information about detected paths
+  * \{
+  */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/** \struct ZcmTrackF
+ * \brief detected railway track (float decision)
+ *
+ * \var ZcmTrackF::size
+ * \brief points count in detected track
+ *
+ * \var ZcmTrackF::points
+ * \brief vector of points (accuracy - 1 cm), meters
+ */
+struct ZcmTrackF
+{
+	int32_t size;
+	ZcmPointF points [size];
+}
+
+//=======================================================================================
+
+/** \struct ZcmTracksF
+ * \brief all detected railway tracks (float decision)
+ *
+ * \var ZcmTracksF::service
+ * \brief service working info message
+ *
+ * \var ZcmTracksF::sensor
+ * \brief source ZcmSensor
+ *
+ * \var ZcmTracksF::size
+ * \brief detected tracks count
+ *
+ * \var ZcmTracksF::data
+ * \brief vector of tracks
+ */
+struct ZcmTracksF
+{
+	ZcmService service;
+
+	ZcmSensor sensor;
+
+	int16_t size;
+	ZcmTrackF data [size];
+}
+
+//=======================================================================================
+//=======================================================================================
+
+/** \struct ZcmTrackD
+ * \brief detected railway track (double decision)
+ *
+ * \var ZcmTrackD::size
+ * \brief points count in detected track
+ *
+ * \var ZcmTrackD::points
+ * \brief vector of points (accuracy - < 1 cm), meters
+ */
+struct ZcmTrackD
+{
+    int32_t size;
+    ZcmPointD points [size];
+}
+
+//=======================================================================================
+
+/** \struct ZcmTracksD
+ * \brief all detected railway tracks (double decision)
+ *
+ * \var ZcmTracksD::service
+ * \brief service working info message
+ *
+ * \var ZcmTracksD::sensor
+ * \brief source ZcmSensor
+ *
+ * \var ZcmTracksD::size
+ * \brief detected tracks count
+ *
+ * \var ZcmTracksD::data
+ * \brief vector of tracks
+ */
+struct ZcmTracksD
+{
+    ZcmService service;
+
+    ZcmSensor sensor;
+
+    int16_t size;
+    ZcmTrackD data [size];
+}
+
+//=======================================================================================
+
+/**
+  * \}
+  */

@@ -1,0 +1,154 @@
+/*!
+ * \addtogroup business_logic
+ * \brief Shunting locomotive data struct.
+ * \{
+ */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/*!
+ * \struct ZcmShlocReversor
+ * \brief Reversor position
+ *
+ * \val ZcmShlocReversor::v
+ * \brief Stored value
+ *
+ * \val ZcmShlocReversor::NEUTRAL
+ * \brief Neutral position 
+ *
+ * \val ZcmShlocReversor::FORWARD
+ * \brief Forward position 
+ *
+ * \val ZcmShlocReversor::BACKWARD
+ * \brief Backward position 
+ */
+struct ZcmShlocReversor
+{
+	int8_t v;	
+
+    const int8_t NEUTRAL = 0;
+    const int8_t FORWARD = 1;
+    const int8_t BACKWARD = 2;    
+}
+
+//=======================================================================================
+
+/*!
+ * \struct ZcmShlocControl
+ * \brief Locomotive control information
+ *
+ * \var ZcmShlocControl::mode
+ * \brief Control mode
+ *
+ * \var ZcmShlocControl::mals
+ * \brief Shunting automatic locomotive signaling operation type
+ *
+ * \var ZcmShlocControl::UNDEF
+ * \brief Undefined control mode or MALS operation
+ *
+ * \var ZcmShlocControl::MANUAL
+ * \brief Control mode - manual (from the cockpit)
+ *
+ * \var ZcmShlocControl::REMOTE
+ * \brief Remote control mode
+ *
+ * \var ZcmShlocControl::AUTO_MALS
+ * \brief Control mode - automatic (MALS)
+ *
+ * \var ZcmShlocControl::AUTO_MSR32
+ * \brief Control mode - automatic (MSR-32)
+ *
+ * \var ZcmShlocControl::AUTO_WAIT
+ * \brief Control mode - automatic (waiting for switching of the control system)
+ *
+ * \var ZcmShlocControl::MALS_STAND
+ * \brief Performed MALS operation: standing
+ *
+ * \var ZcmShlocControl::MALS_ROUTE
+ * \brief Performed MALS operation: movement to the end of the route (to dead end or traffic light)
+ *
+ * \var ZcmShlocControl::MALS_ROUTE_BUSY
+ * \brief Performed MALS operation: moving on a busy path
+ *
+ * \var ZcmShlocControl::MALS_COUPLING_ON
+ * \brief Performed MALS operation: waiting for coupling with the train
+ *
+ * \var ZcmShlocControl::MALS_COUPLING_OFF
+ * \brief Performed MALS operation: stretching the coupler.
+ */
+struct ZcmShlocControl
+{
+    int8_t mode;
+    int8_t mals;
+
+    const int8_t UNDEF = 0;
+
+    const int8_t MANUAL     = 1;
+    const int8_t REMOTE     = 2;
+    const int8_t AUTO_MALS  = 3;
+    const int8_t AUTO_MSR32 = 4;
+    const int8_t AUTO_WAIT  = 5;
+
+    const int8_t MALS_STAND        = 1;
+    const int8_t MALS_ROUTE        = 2;
+    const int8_t MALS_ROUTE_BUSY   = 3;
+    const int8_t MALS_COUPLING_ON  = 4;
+    const int8_t MALS_COUPLING_OFF = 5;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct ZcmShlocInfo
+ * \brief Information from the locomotive control system
+ *
+ * \var ZcmShlocInfo::service
+ * \brief Service message
+ *
+ * \var ZcmShlocInfo::speed
+ * \brief Actual speed of the locomotive, km/h
+ *
+ * \var ZcmShlocInfo::reversor
+ * \brief Reversor position
+ *
+ * \var ZcmShlocInfo::control
+ * \brief Locomotive control information
+ */
+struct ZcmShlocInfo
+{
+    ZcmService service;
+
+    float  speed;
+
+    ZcmShlocReversor reversor;
+    ZcmShlocControl control;
+}
+
+//=======================================================================================
+
+/** \struct ZcmCouple
+ * \brief detected wagon coupling distance and status info
+ *
+ * \var ZcmObjects::service
+ * \brief service working message
+ *
+ * \var ZcmObjects::distance
+ * \brief distance to coupling, meters
+ *
+ * \var ZcmObjects::status
+ * \brief true if coupled, false otherwise
+ */
+struct ZcmCouple
+{
+    ZcmService service;
+    float distance;
+    boolean status;
+}
+
+//=======================================================================================
+
+/*!
+ * \}
+ */

@@ -1,0 +1,126 @@
+/**
+  * \addtogroup geometry
+  * \brief Basic points types
+  * \{
+  */
+
+//=======================================================================================
+
+//=======================================================================================
+
+//! Point structs in Cartesian coordinate system (ISO 8855:2011)
+//! x - X axis, m/cm/mm
+//! y - Y axis, m/cm/mm
+//! z - Z axis, m/cm/mm
+
+//! \struct ZcmPointF
+struct ZcmPointF
+{
+	float x;
+	float y;
+	float z;
+}
+
+//=======================================================================================
+
+//! \struct ZcmPointD
+struct ZcmPointD
+{
+	double x;
+	double y;
+	double z;
+}
+
+//=======================================================================================
+
+//! \struct ZcmPointI8
+struct ZcmPointI8
+{
+	int8_t x;
+	int8_t y;
+	int8_t z;
+}
+
+//=======================================================================================
+
+//! \struct ZcmPointU8
+struct ZcmPointU8
+{
+	byte x;
+	byte y;
+	byte z;
+}
+
+//=======================================================================================
+
+//! \struct ZcmPointI16
+struct ZcmPointI16
+{
+	int16_t x;
+	int16_t y;
+	int16_t z;
+}
+
+//=======================================================================================
+
+//! \struct ZcmPointI32
+struct ZcmPointI32
+{
+	int32_t x;
+	int32_t y;
+	int32_t z;
+}
+
+//=======================================================================================
+
+//! \struct ZcmPointI64
+struct ZcmPointI64
+{
+	int64_t x;
+	int64_t y;
+	int64_t z;
+}
+
+//=======================================================================================
+
+/** \struct ZcmPointS
+ *  \brief In Spherical coordinate system (ISO 8855:2011)
+ *
+ * \var ZcmPointS::depth
+ * \brief Depth, Unit: mm 
+ *
+ * \var ZcmPointS::phi
+ * \brief Azimuth[0, 36000], Unit: 0.01 degree
+ *
+ * \var ZcmPointS::theta
+ * \brief Zenith angle[0, 18000], Unit: 0.01 degree
+ */
+struct ZcmPointS
+{
+	int32_t depth;
+	int32_t phi;
+	int16_t theta;
+}
+
+//=======================================================================================
+
+/*! 
+ * \struct ZcmPointFP
+ *
+ * \var ZcmPointFP::probability
+ * \brief Probability of point
+ */
+struct ZcmPointFP
+{
+	float x;
+	float y;
+	float z;
+	
+	float probability;
+}
+
+//=======================================================================================
+
+/**
+  * \}
+  */

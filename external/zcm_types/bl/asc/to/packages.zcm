@@ -1,0 +1,211 @@
+/*!
+ * \addtogroup business_logic
+ * \brief For interaction with Automatic Shunting Center (ASC) structs.
+ * \{
+ */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/*!
+ * \struct PositionReportPkg
+ * \brief Package 0 Position Report
+ *
+ * \var PositionReportPkg::scale
+ * \brief Distance scale. Set to 1.
+ *
+ * \var PositionReportPkg::last_balise_id
+ * \brief ID of the last passed virtual balise.
+ *
+ * \var PositionReportPkg::distance_passed
+ * \brief Distance traveled by the head of the train from the last baliza.
+ *
+ * \var PositionReportPkg::balise_orientation
+ * \brief Orientation of the train relative to the direction of the last passed balise.
+ *
+ * \var PositionReportPkg::balise_side
+ * \brief Balise side. Set to 1.
+ *
+ * \var PositionReportPkg::confidence_interval
+ * \brief Confidence interval.
+ *
+ * \var PositionReportPkg::train_integrity
+ * \brief Train integrity.
+ *
+ * \var PositionReportPkg::length_in_cars
+ * \brief Length of train wagons.
+ *
+ * \var PositionReportPkg::speed
+ * \brief Current speed.
+ *
+ * \var PositionReportPkg::is_nominal_direction
+ * \brief The direction of movement of the train relative to the last balise.
+ *
+ * \var PositionReportPkg::control_mode
+ * \brief Onboard control mode.
+ *
+ * \var PositionReportPkg::control_lvl
+ * \brief Control level.
+ *
+ * \var PositionReportPkg::nid
+ * \brief National system identifier. Set to 0. If M_LEVEL = 1.
+ */
+struct PositionReportPkg
+{
+    int8_t scale;
+
+    int32_t last_balise_id;
+
+    int16_t distance_passed;
+
+    int8_t balise_orientation;
+
+    int8_t balise_side;
+
+    int16_t confidence_interval;
+
+    boolean	train_integrity;
+
+	int16_t length_in_cars;
+
+	int8_t speed;
+
+	boolean	is_nominal_direction;
+
+    int8_t control_mode;
+
+    int8_t control_lvl;
+
+    int8_t nid;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct TrainRunningNumberPkg
+ * \brief Package 5 Train running number
+ *
+ * \var TrainRunningNumberPkg::train_number
+ * \brief Train number
+ */
+struct TrainRunningNumberPkg
+{
+	int32_t train_number;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct Axle
+ * \brief Axle of Train
+ *
+ * \var Axle::voltage
+ * \brief Traction system tension. Fits in 3.
+ *
+ * \var Axle::nid
+ * \brief National traction system identifier. Set to 1.
+ */
+struct Axle
+{
+    int8_t voltage;
+
+    int8_t nid;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct ValidatedTrainDataPkg
+ * \brief Package 11 Validated train data
+ *
+ * \var ValidatedTrainDataPkg::train_category
+ * \brief Train category. Fits at 15.
+ *
+ * \var ValidatedTrainDataPkg::train_type
+ * \brief Train category. Fits in 4.
+ *
+ * \var ValidatedTrainDataPkg::length_in_cars
+ * \brief Train length in wagons.
+ *
+ * \var ValidatedTrainDataPkg::max_speed
+ * \brief Maximum train speed. Fits at 32.
+ *
+ * \var ValidatedTrainDataPkg::loading_prof
+ * \brief Train loading profile. Set to 0.
+ *
+ * \var ValidatedTrainDataPkg::axis_load
+ * \brief Axle load category. Installed in 2.
+ *
+ * \var ValidatedTrainDataPkg::is_airtight
+ * \brief The presence of a tightness system. Set to 0.
+ *
+ * \var ValidatedTrainDataPkg::axis_number
+ * \brief Number of axles.
+ *
+ * \var ValidatedTrainDataPkg::axis_iter
+ * \brief Axles iterator.
+ *
+ * \var ValidatedTrainDataPkg::axis_iter
+ * \brief Axles iterator.
+ *
+ * \var ValidatedTrainDataPkg::axis[axis_iter]
+ * \brief Set of axles.
+ *
+ * \var ValidatedTrainDataPkg::nids_iter
+ * \brief Number of nid.
+ *
+ * \var ValidatedTrainDataPkg::nids[nids_iter]
+ * \brief National system identifier. Set to 0.
+ */
+struct ValidatedTrainDataPkg
+{
+    int8_t train_category;
+
+	int16_t train_type;
+
+	int16_t length_in_cars;
+
+	int8_t max_speed;
+
+	int8_t loading_prof;
+
+	int8_t axis_load;
+
+	int8_t is_airtight;
+
+	int16_t axis_number;
+
+	int8_t axis_iter;
+
+	Axle axis[axis_iter];
+
+	int8_t nids_iter;
+
+    int8_t nids[nids_iter];
+}
+
+//=======================================================================================
+
+/*!
+ * \struct AppDataFromObu
+ * \brief Package 44 Data used by applications outside the ERTMS/ETCS system
+ *
+ * \var AppDataFromObu::system_id
+ * \brief  System ID, set to 2.
+ *
+ * \var AppDataFromObu::map_version
+ * \brief Version of electronic map
+ */
+struct AppDataFromObu
+{
+    int16_t system_id;
+
+    int32_t map_version;
+}
+
+//=======================================================================================
+
+/*!
+ * \}
+ */

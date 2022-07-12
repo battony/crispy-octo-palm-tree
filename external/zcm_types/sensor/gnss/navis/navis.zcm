@@ -1,0 +1,151 @@
+/**
+ * \addtogroup navis
+ * @brief Messages for working with navis NV08C-CSM
+ * @{
+ */
+  
+//=======================================================================================
+
+
+//=======================================================================================
+
+/**
+ * @struct ZcmNavisMode
+ * @brief GNSS mode
+ *
+ * @var ZcmNavisMode::v
+ * @brief Solution type
+ *        ( ID : LABEL )
+ *          0 : FIX_NO        - no fix or invalid
+ *          1 : AUTONOMOUS    - autonomous mode
+ *          2 : DIFFERENTIAL  - differential mode
+            6 : ESTIMATED     - estimated data (extrapolation, dead reckoning)
+ *          
+ */
+struct ZcmNavisMode 
+{
+   int8_t v;
+    
+   const int8_t FIX_NO        = 0;
+   const int8_t AUTONOMOUS    = 1;
+   const int8_t DIFFERENTIAL  = 2;
+   const int8_t ESTIMATED     = 6;
+} 
+
+//=======================================================================================
+
+/**
+ * @struct ZcmNavisAccuracy
+ * @brief accuracy
+ *
+ * @var ZcmNavisAccuracy::lon
+ * @brief Longitude error estimation, m
+ *          
+ * @var ZcmNavisAccuracy::lat  
+ * @brief Latitude error estimation, m
+ *          
+ * @var ZcmNavisAccuracy::alt         
+ * @brief Altitude error estimation, m
+ */
+struct ZcmNavisAccuracy
+{
+   double lon;
+   double lat;
+   double alt;
+}
+
+//=======================================================================================
+
+/**
+ * @struct ZcmNavis
+ * @brief The message contains information about GNSS position, 
+ *        velocity, time, solution, including accuracy
+ *          
+ * @var ZcmNavis::service
+ * @brief Service message
+ *          
+ * @var ZcmNavis::geodetic
+ * @brief Current geodetic coordinates
+ *
+ * @var ZcmNavis::accuracy
+ * @brief Receiver accuracy estimate
+ *
+ * @var ZcmNavis::additional
+ * @brief Additional values
+ *
+ * @var ZcmNavis::solution
+ * @brief Solution flag
+ *
+ * @var ZcmNavis::msg_validity
+ * @brief Message validity information
+ *
+ * @var ZcmNavis::nav_accuracy
+ * @brief Navis accuracy
+ *
+ * @var ZcmNavis::mode
+ * @brief GNSS mode
+ *
+ * @var ZcmNavis::speed   
+ * @brief Speed over ground, km/hr
+ *
+ */
+struct ZcmNavis
+{
+   ZcmService service;
+    
+   ZcmGNSSGeodetic geodetic;
+   ZcmGNSSAccuracyDOP accuracy;
+   ZcmGNSSAdditional additional;
+
+   ZcmGNSSMessageSolution solution; 
+   ZcmGNSSMessageValidity msg_validity; 
+
+   ZcmNavisAccuracy nav_accuracy;
+   ZcmNavisMode mode;
+
+   double speed; 
+}
+
+//=======================================================================================
+
+/**
+ * @struct ZcmNavisInfo
+ * @brief Navis information
+ *
+ * @var ZcmNavisInfo::service
+ * @brief Service message  
+ *
+ * @var ZcmNavisInfo::antenna
+ * @brief antenna status
+ *          0 = active antenna is connected
+ *          1 = no antenna
+ *          2 = short circuit
+ * 
+ * @var ZcmNavisInfo::rfg
+ * @brief rfg status
+ *          0  = normal operation
+ * 
+ * @var ZcmNavisInfo::rfr
+ * @brief rfr status
+ *          0  = normal operation 
+ *           
+ */
+struct ZcmNavisInfo
+{
+   ZcmService service;
+   
+   byte antenna;
+
+   int8_t rfg;
+
+   int8_t rfr;
+} 
+
+//=======================================================================================
+
+
+//=======================================================================================
+
+/**
+ * @}
+ */

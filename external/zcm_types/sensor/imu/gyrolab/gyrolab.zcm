@@ -1,0 +1,167 @@
+/** @mainpagenav_gyrolab
+  * Messages for IMU Gyrolab ГЛ-ВГ204.
+  */
+
+ /**
+ * @struct ZcmGyrolabStatus
+ * @brief Sensor status
+ * 
+ * @var ZcmGyrolabStatus::valid_ins
+ * @brief - BINS failure:1 - INS failure; 0 - INS works.
+ *  
+ * @var ZcmGyrolabStatus::sat_nav_good
+ * @brief - SNS failure: 1 - СНС failure; 0 - СНС works.
+ *  
+ * @var ZcmGyrolabStatus::sat_nav_credibility
+ * @brief - SNS navigation data credibility: 1 - high credibility; 0 – low credibility.
+ *  
+ * @var ZcmGyrolabStatus::movement
+ * @brief - Feature – «object moving» (determined by algorithm): 1 – motionless base; 0 – movement
+ * 
+ * @var ZcmGyrolabStatus::fixed_base
+ * @brief - Feature “Motionless base (MB)” from operator: 1 – feature got; 0 – no feature.
+ *  
+ * @var ZcmGyrolabStatus::sat_nav_corr
+ * @brief - Correction from SNS: 1 – correction applied; 0 – correction is not applied.
+ *  
+ * @var ZcmGyrolabStatus::exhibition_coord:
+ * @brief - Coordinate exposure: 1 – correction applied; 0 – correction is not applied.
+ *  
+ * @var ZcmGyrolabStatus::course_lat_corr
+ * @brief - Latitude and longtitude correction: 1 – correction applied; 0 – correction is not applied.
+ * 
+ * @var ZcmGyrolabStatus::fixed_base_in_time
+ * @brief - Mode «Motionless base» from operator when «latitude exposure»: 1 – correction applied; 0 – correction is not applied.
+ *  
+ * @var ZcmGyrolabStatus::dual_gyrocompassing
+ * @brief - Double gyroeompassing: 1 - applied; 0 – is not applied.
+ *
+ * @var ZcmGyrolabStatus::reexhibition_double_GK
+ * @brief - Double exposure for double GK: 1 - is planned; 0 – is not planned.
+ *
+ * @var ZcmGyrolabStatus::device_ready
+ * @brief - Device readiness: 1 - ready, 0 - not ready.
+ *
+ * @var ZcmGyrolabStatus::odom_measuring_corr
+ * @brief - Mode «Odometry coorrection on measuring area»: 1 – correction applied; 0 – correction is not applied.
+ *
+ * @var ZcmGyrolabStatus::odom_adj
+ * @brief - Mode «Odometry system alignment»: 1 – correction applied; 0 – correction is not applied.
+ *
+ * @var ZcmGyrolabStatus::odom_corr
+ * @brief - Correction from odometry system: 1 – correction applied; 0 – correction is not applied.
+ *
+ * @var ZcmGyrolabStatus::operator_corr
+ * @brief - Correction from operator: 1 – correction applied; 0 – correction is not applied.
+ *
+ * @var ZcmGyrolabStatus::inertial_odom_corr
+ * @brief - Correction from «imu odometer»: 1 – correction applied; 0 – correction is not applied.
+ *
+ * @var ZcmGyrolabStatus::fixed_base_corr
+ * @brief - Correction by feature «Motionless base»: 1 – correction applied; 0 – correction is not applied.
+ *
+ * @var ZcmGyrolabStatus::curr_mode
+ * @brief - current mode: WAIT_HORIZONING - mode «Wait» - «Deep horizonting»
+ *                        WAIT_COURSE - mode «Wait» - «Deep course determination»
+ *                        EXPOSURE - Exposure
+ *                        NAVIGATION - mode «Navigation».
+ */
+ struct ZcmGyrolabStatus
+ {
+    int8_t valid_ins;
+    int8_t sat_nav_good;
+    int8_t sat_nav_credibility;
+    int8_t movement;
+    int8_t fixed_base;
+    int8_t sat_nav_corr;
+    int8_t exhibition_coord;
+    int8_t course_lat_corr;
+    int8_t fixed_base_in_time;
+    int8_t dual_gyrocompassing;
+    int8_t reexhibition_double_GK;
+    int8_t device_ready;
+    int8_t odom_measuring_corr;
+    int8_t odom_adj;
+    int8_t odom_corr;
+    int8_t operator_corr;
+    int8_t inertial_odom_corr;
+    int8_t fixed_base_corr;
+    int8_t curr_mode;
+
+    const int8_t WAIT_HORIZONTING = 0;
+    const int8_t WAIT_COURSE = 1;
+    const int8_t EXPOSURE = 2;
+    const int8_t NAVIGATION = 3;
+ }
+
+ /**
+ * @struct ZcmGyrolabInfo
+ * @brief Sensor info
+ *
+ * @var ZcmGyrolabInfo::service
+ * @brief - system service information
+ *
+ * @var ZcmGyrolabInfo::status
+ * @brief - Sensor status
+ */
+ struct ZcmGyrolabInfo
+ {
+    ZcmService       service;
+    ZcmGyrolabStatus status;
+ }
+
+ /**
+ * @struct ZcmGyrolabVelocity
+ * @brief Sensor velocity
+ *
+ * @var ZcmGyrolabVelocity::v_e
+ * @brief - BINS west direction velocity, m/s.
+ *
+ * @var ZcmGyrolabVelocity::v_n
+ * @brief - BINS north direction velocity, m/s.
+ *
+ * @var ZcmGyrolabVelocity::v_h
+ * @brief - BINS height velocity, m/s.
+ *
+ */
+ struct ZcmGyrolabVelocity 
+ {
+    float v_e;
+    float v_n;
+    float v_h;
+ }
+
+ /**
+ * @struct ZcmGyrolab
+ * @brief The message contains information about inertial measurement unit(IMU): angular rate, the orientation of the body
+ *
+ * @var ZcmGyrolab::service
+ * @brief - system service information
+ *     
+ * @var ZcmGyrolab::velocity  
+ * @brief - sensor velocity, m/s
+ *
+ * @var ZcmGyrolab::angular_velocity
+ * @brief - sensor angular velocity, grad/s
+ *
+ * @var ZcmGyrolab::acceleration
+ * @brief - sensor acceleration, m/s^2
+ *
+ * @var ZcmGyrolab::orientation
+ * @brief - sensor orientation, grad
+ */
+ struct ZcmGyrolab
+ {
+    ZcmService         service;
+	  
+    ZcmGyrolabVelocity velocity;
+    ZcmIMUVelocity     angular_velocity;
+
+    ZcmIMUAcceleration acceleration;
+
+    ZcmIMUOrientation  orientation;
+ }
+
+/**
+  * @}
+  */

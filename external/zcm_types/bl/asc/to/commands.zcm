@@ -1,0 +1,47 @@
+/*!
+ * \addtogroup business_logic
+ * \brief For interaction with Automatic Shunting Center (ASC) structs.
+ * \{
+ */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/*!
+ * \struct ZcmToRbcCommand
+ * \brief Command sended to ASC/RBC 
+ *
+ * \var ZcmToRbcCommand::service
+ * \brief Service message
+ *
+ * \var ZcmToRbcCommand::command
+ * \brief
+ *      1 - CONNECT - Command for connect to ASC.
+ *      2 - DISCONNECT - Command for disconnect from ASC.
+ *
+ * \var ZcmToRbcCommand::train_number
+ * \brief Train running number.
+ *
+ * \var ZcmToRbcCommand::nid_engine
+ * \brief ETCS identificator (NID_ENGINE).
+ */
+struct ZcmToRbcCommand 
+{
+    ZcmService service;
+    
+    const int8_t CONNECT    = 1;
+    const int8_t DISCONNECT = 2;
+    
+    int8_t  command;
+
+    int32_t train_number;
+
+    int32_t nid_engine;
+}
+
+//=======================================================================================
+
+/*!
+ * \}
+ */

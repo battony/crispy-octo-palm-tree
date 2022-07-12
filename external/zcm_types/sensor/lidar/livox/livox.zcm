@@ -1,0 +1,289 @@
+/**
+  * \addtogroup lidar_livox
+  * \brief Messages for working with lidars
+  * Livox Mid-40, Mid-70, Mid-100, Horizon, Tele-15, Avia.
+  * \{
+  */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/**
+ * \struct ZcmLivoxPointTag
+ * \brief Package information of N points
+ *
+ * \var ZcmLivoxPointTag::ret_num
+ * \brief reflection number
+ *          0: Return 0
+ *          1: Return 1
+ *          2: Return 2
+ *          3: Return 4
+ *
+ * \var ZcmLivoxPointTag::intensity
+ * \brief point property based on return rate
+ *          0: Normal
+ *          1: High confidence level of the noise
+ *          2: Moderate confidence level of the noise
+ *          3: Reserved
+ *
+ * \var ZcmLivoxPointTag::position
+ * \brief point property based on spatial position
+ *          0: Normal
+ *          1: High confidence level of the noise
+ *          2: Moderate confidence level of the noise
+ *          3: Low confidence level of the noise
+*/
+struct ZcmLivoxPointTag
+{
+    byte ret_num;
+    byte intensity;
+    byte position;
+}
+
+//=======================================================================================
+
+/**
+ * \struct ZcmLivoxPoint
+ * \brief Point information
+ *
+ * \var ZcmLivoxPoint::x
+ * \brief x-coordinate value (ISO 8855:2011), meters
+ *
+ * \var ZcmLivoxPoint::y
+ * \brief y-coordinate value (ISO 8855:2011), meters
+ *
+ * \var ZcmLivoxPoint::z
+ * \brief z-coordinate value (ISO 8855:2011), meters
+ *
+ * \var ZcmLivoxPoint::reflectivity
+ * \brief 
+ *		Values in the range : 0 to 255. 
+ *		0 to 150 corresponds to reflectivity in the range from 0 to 100% in the Lambert reflection model.
+ *		151 to 255 corresponds to the reflectivity of target objects with retro-reflective properties.
+ *
+ * \var ZcmLivoxPoint::tag
+ * \brief information about N points in a packet as ZcmLivoxPointTag
+ *
+ * \var ZcmLivoxPoint::timestamp
+ * \brief point capture time in nanoseconds relative to the start of the Unix epoch on January 1, 1970 in UTC.
+*/ 
+struct ZcmLivoxPoint
+{
+	float x;
+	float y;
+	float z;
+
+    byte reflectivity;
+
+    ZcmLivoxPointTag tag;
+
+    int64_t timestamp;
+}
+
+//=======================================================================================
+
+/**
+ * \struct ZcmLivoxIMU
+ * \brief Information received from the inertial sensor
+ *
+ * \struct ZcmLivoxIMU::service
+ * \brief Service working message
+ *
+ * \var ZcmLivoxIMU::gyro_x
+ * \brief Gyroscope X axis (ISO 8855:2011), Unit:rad/s
+ *
+ * \var ZcmLivoxIMU::gyro_y
+ * \brief Gyroscope Y axis (ISO 8855:2011), Unit:rad/s
+ *
+ * \var ZcmLivoxIMU::gyro_z
+ * \brief Gyroscope Z axis (ISO 8855:2011), Unit:rad/s
+ *
+ * \var ZcmLivoxIMU::acc_x
+ * \brief Accelerometer X axis (ISO 8855:2011), Unit:g
+ *
+ * \var ZcmLivoxIMU::acc_y
+ * \brief Accelerometer Y axis (ISO 8855:2011), Unit:g
+ *
+ * \var ZcmLivoxIMU::acc_z
+ * \brief Accelerometer Z axis (ISO 8855:2011), Unit:g
+ *
+*/
+struct ZcmLivoxIMU
+{
+    ZcmService service;
+
+    float gyro_x;
+    float gyro_y;
+    float gyro_z;
+    float acc_x;
+    float acc_y;
+    float acc_z;
+}
+
+//=======================================================================================
+
+/**
+ * \struct ZcmLivox
+ * \brief Scan information containing packets of lidar points
+ *
+ * \var ZcmLivox::service
+ * \brief Service working message
+ *
+ * \var ZcmLivox::lidar_id
+ * \brief LiDAR ID:
+ *          1: Mid-100 Left / Mid-40 / Mid-70 / Tele-15 / Horizon / Avia
+ *          2: Mid-100 Middle
+ *          3: Mid-100 Right
+ *
+ * \var ZcmLivox::timestamp_type
+ * \brief time synchronization mode
+ *          0 : no sync source;
+ *          1 : network protocol PTP IEEE 1588v2.0 synchronization.
+ *          2 : reserved
+ *          3 : GPS synchronization;
+ *          4 : PPS pulse sync.
+ *
+ * \var ZcmLivox::data_type
+ * \brief point type
+ *          0 : Single Return Mode, Cartesian Coordinate, 100 points/package, 100,000 points/s, Mid-40
+ *          1 : Single Return Mode, Spherical Coordinate, 100 points/package, 100,000 points/s, Mid-40
+ *          2 : Single Return Mode, Cartesian Coordinate, 96 points/package, 240,000 points/s, Horizon/Tele-15/Mid-70/Avia
+ *          3 : Single Return Mode, Spherical Coordinate, 96 points/package, 240,000 points/s, Horizon/Tele-15/Mid-70/Avia
+ *          4 : Dual Return Mode, Cartesian Coordinate, 48 points/package, 480,000 points/s, Horizon/Tele-15/Mid-70/Avia
+ *          5 : Dual Return Mode, Spherical Coordinate, 48 points/package, 480,000 points/s, Horizon/Tele-15/Mid-70/Avia
+ *          6 : IMU Data, 1 point/package, Horizon/Tele-15/Avia
+ *          7 : Triple Return Mode, Cartesian Coordinate, 30 point/package, 720,000 points/s, Avia
+ *          8 : Triple Return Mode, Spherical Coordinate, 30 point/package, 720,000 points/s, Avia
+ *
+ * \var ZcmLivox::points_count
+ * \brief number of scanned points
+ *
+ * \var ZcmLivox::points
+ * \brief array of points
+ */
+struct ZcmLivox
+{
+    ZcmService service;
+
+    byte timestamp_type;
+    byte data_type;
+    
+    int32_t points_count;
+
+    ZcmLivoxPoint points[ points_count ];    
+}
+
+//=======================================================================================
+
+/**
+ * \struct ZcmLivoxInfo
+ * \brief Sensor status indicator
+ * 
+ * \var ZcmLivoxInfo::temp_status
+ * \brief temperature:
+ *          0: Temperature in Normal State
+ *          1: High or Low
+ *          2: Extremely High or Extremely Low
+ *
+ * \var ZcmLivoxInfo::volt_status
+ * \brief voltage:
+ *          0: Voltage in Normal State. 
+ *          1: High. 
+ *          2: Extremely High.
+ *
+ * \var ZcmLivoxInfo::motor_status
+ * \brief motor
+ *          0: Motor in Normal State. 
+ *          1: Motor in Warning State. 
+ *          2: Motor in Error State, Unable to Work.
+ *
+ * \var ZcmLivoxInfo::dirty_warn
+ * \brief pollution
+ *          0: Not Dirty or Blocked. 
+ *          1: Dirty or Blocked.
+ *
+ * \var ZcmLivoxInfo::firmware_err
+ * \brief firmware state
+ *          0: Firmware is OK. 
+ *          1: Firmware is Abnormal, Need to be Upgraded.
+ *
+ * \var ZcmLivoxInfo::pps_status
+ * \brief PPS time synchronization signal
+ *          0: No PPS Signal. 
+ *          1: PPS Signal is OK.
+ *
+ * \var ZcmLivoxInfo::device_status
+ * \brief sensor wear
+ *          0: Normal. 
+ *          1: Warning for Approaching the End of Service Life.
+ *
+ * \var ZcmLivoxInfo::fan_status
+ * \brief fan state
+ *          0: Fan in Normal State. 
+ *          1: Fan in Warning State.
+ *
+ * \var ZcmLivoxInfo::self_heating
+ * \brief heating
+ *          0: Normal. 
+ *          1: Low Temperature Self Heating On.
+ *
+ * \var ZcmLivoxInfo::ptp_status
+ * \brief PTP synchronization
+ *          0: No 1588 Signal. 
+ *          1: 1588 Signal is OK.
+ *
+ * \var ZcmLivoxInfo::time_sync_status
+ * \brief time synchronization information
+ *          0: System dose not start time synchronization
+ *          1: Using PTP 1588 synchronization
+ *          2: Using GPS synchronization
+ *          3: Using PPS synchronization
+ *          4: System time synchronization is abnormal (The highest 
+ *             priority synchronization signal is abnormal)
+ *
+ * \var ZcmLivoxInfo::system_status
+ * \brief brief general information
+ *          0: Normal
+ *          1: Warning
+ *              Any of the following situations will trigger warning:
+ *              1.1 temp_status is 1;
+ *              1.2 volt_status is 1;
+ *              1.3 motor_status is 1;
+ *              1.4 dirty_warn is 1;
+ *              1.5 device_status is 1;
+ *              1.6 fan_status is 1;
+ *          2: Error
+ *              Causes the LiDAR to Shut Down and Enter the Error State.
+ *              Any of the following situations will trigger error:
+ *              2.1 temp_status is 2;
+ *              2.2 volt_status is 2;
+ *              2.3 motor_status is 2;
+ *              2.4 firmware_status is 1;
+ *
+ * \var ZcmLivoxInfo::timestamp
+ * \brief - capture time relative to the start of the Unix epoch on January 1, 1970 in UTC, nanoseconds.
+ */
+struct ZcmLivoxInfo
+{
+    byte temp_status;
+    byte volt_status;
+    byte motor_status; 
+    byte dirty_warn;   
+    byte firmware_err; 
+    byte pps_status;   
+    byte device_status;
+    byte fan_status; 
+    byte self_heating;
+    byte ptp_status;
+    byte time_sync_status;
+    byte system_status;
+
+    int64_t timestamp;
+}
+
+//=======================================================================================
+
+/**
+  * \}
+  */

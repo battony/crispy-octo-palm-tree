@@ -1,0 +1,65 @@
+/**
+  * \addtogroup ultrasonic_steelmate
+  * \brief Messages for working with SteelMate 
+  * \{
+  */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/**
+ * \struct ZcmSteelmateSegment
+ * \brief Scan information containing packet of ultrasonic detection
+ *
+ * \var ZcmSteelmateSegment::id
+ * \brief Sensor number, [1..inf]
+ *
+ * \var ZcmSteelmate::busy
+ * \brief Status info that indicates if zone is filled
+ *
+ * \var ZcmSteelmateSegment::distance
+ * \brief Distance to detected obstacle if busy (if not busy - INF), meters
+ */
+struct ZcmSteelmateSegment
+{
+    byte id;   
+    
+    boolean busy;
+
+    float distance;    
+}
+
+//=======================================================================================
+
+/**
+ * \struct ZcmSteelmate
+ * \brief Scan information containing packets of ultrasonic detections 
+ *
+ * \var ZcmSteelmate::service
+ * \brief Service working message
+ *
+ * \var ZcmSteelmate::busy
+ * \brief Status info that indicates if one more zones is filled
+ *
+ * \var ZcmSteelmate::count
+ * \brief Count of detected zones (connected devices)
+ *
+ * \var ZcmSteelmate::data
+ * \brief Detection infos
+ */
+struct ZcmSteelmate
+{
+    ZcmService service;
+
+    boolean busy;
+
+    int8_t count;
+    ZcmSteelmateSegment data[ count ];
+}
+
+//=======================================================================================
+
+/**
+  * \}
+  */

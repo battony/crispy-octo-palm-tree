@@ -1,0 +1,39 @@
+/**
+  * \addtogroup lucid
+  * \brief Diagnostic messages from Lucid TRI053S-C
+  * \{
+  */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/**
+ * \struct ZcmLucidInfo
+ * \brief Diagnostic info from device
+ *
+ * \var ZcmLucidInfo::temperature
+ * \brief Celsius
+ *
+ * \var ZcmLucidInfo::pressure
+ * \brief kPa
+ *
+ * \var ZcmLucidInfo::power
+ * \brief W
+ */
+struct ZcmLucidInfo
+{
+	ZcmService service;
+
+	float temperature;
+	float pressure;
+	float power;
+}
+
+//=======================================================================================
+
+//=======================================================================================
+
+/**
+  * \}
+  */

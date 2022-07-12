@@ -1,0 +1,474 @@
+/*!
+ * \addtogroup business_logic
+ * \brief For interaction with Automatic Shunting Center (ASC) structs.
+ * \{
+ */
+
+//=======================================================================================
+
+//=======================================================================================
+
+/*!
+ * \struct BaliseGroup
+ * \brief Structure for each balise group.
+ *
+ * \var BaliseGroup::balise_dist
+ * \brief Distance between balise groups.
+ *
+ * \var BaliseGroup::new_country
+ * \brief Zone change flag. is set to 0.
+ *
+ * \var BaliseGroup::zone
+ * \brief RBC control area identifier.
+ *
+ * \var BaliseGroup::balise_group_id
+ * \brief Balise group identifier.
+ *
+ * \var BaliseGroup::balise_group_orientation
+ * \brief Balise direction.
+ *
+ * \var BaliseGroup::on_link_error
+ * \brief Action in case of violation of the balise connection.
+ *
+ * \var BaliseGroup::location_accuracy
+ * \brief Balise location accuracy.
+ */
+struct BaliseGroup
+{
+    int16_t balise_dist;
+
+    int8_t new_country;
+
+    int16_t zone;
+
+    int16_t balise_group_id;
+
+    boolean balise_group_orientation;
+
+    int8_t on_link_error;
+    
+    int8_t location_accuracy;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct Linking
+ * \brief Package 5 Linking.
+ *
+ * \details Used to convey all virtual balises in motion permission.
+ *
+ * \var Linking::scale
+ * \brief Distance scale, set to 1.
+ *
+ * \var Linking::last
+ * \brief Last reached balise.
+ *
+ * \var Linking::iter
+ * \brief The number of elements in the array of balises.
+ *
+ * \var Linking::links
+ * \brief Balises groups.
+ */
+struct Linking
+{
+    int8_t scale;
+
+    BaliseGroup last;
+
+    int8_t iter;
+
+    BaliseGroup links[iter];
+}
+
+//=======================================================================================
+
+/*!
+ * \struct Section
+ * \brief Section Information.
+ *
+ * \var Section::length
+ * \brief Length of the section in the traffic permit.
+ *
+ * \var Section::timer
+ * \brief Timer flag for a site.
+ *
+ * \var Section::zone_expiration_time
+ * \brief Time of validity of the site in the traffic permit.
+ *
+ * \var Section::length_to_stop
+ * \brief Distance from the start of the run to the stop point of the run timer.
+ */
+struct Section
+{
+    int16_t length;
+
+    boolean timer;
+
+    int16_t zone_expiration_time;
+
+    int16_t length_to_stop;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct MovementAuth
+ * \brief Package 15 Level 2/3 Movement Authority.
+ *
+ * \details Used to transmit motion permission.
+ *
+ * \var MovementAuth::scale
+ * \brief Distance scale, set to 1.
+ *
+ * \var MovementAuth::allowed_speed_end
+ * \brief Permitted speed at the end of the driving permit.
+ *
+ * \var MovementAuth::zone_expiration_time
+ * \brief Time of validity of the site in the traffic permit.
+ *
+ * \var MovementAuth::speed_expire_time
+ * \brief Time of validity of target speed at the end of the motion clearance.
+ *
+ * \var MovementAuth::iter
+ * \brief Number of sections.
+ *
+ * \var MovementAuth::sections
+ * \brief Section Information.
+ *
+ * \var MovementAuth::end_section_length
+ * \brief Length of the last section in the traffic permit.
+ *
+ * \var MovementAuth::last
+ * \brief The last zone.
+ *
+ * \var MovementAuth::is_timer
+ * \brief Flag of the presence of a timer for the last section in the permission to move.
+ *
+ * \var MovementAuth::zone_expiration_time
+ * \brief Time of validity of the last section in the traffic permit.
+ *
+ * \var MovementAuth::timer_start_distance
+ * \brief Distance from the start point of the timer of the last leg to
+ *        the end point of the permission to move.
+ *
+ * \var MovementAuth::is_danger_point
+ * \brief The flag of the presence of dangerous point data. Set to 0.
+ *
+ * \var MovementAuth::distance_from_auth
+ * \brief Distance from the end of the traffic permit to the danger point.
+ *
+ * \var MovementAuth::danger_speed
+ * \brief Dangerous point speed.
+ *
+ * \var MovementAuth::is_overlap
+ * \brief Overlap flag. Set to 0.
+ *
+ * \var MovementAuth::distance_from_start
+ * \brief Distance from the start point of the overlap timer to
+ *        the end point of the motion permission
+ *
+ * \var MovementAuth::overlap_time
+ * \brief Overlap duration.
+ *
+ * \var MovementAuth::distance_from_end
+ * \brief Distance from the end of the motion permit to the point of overlap.
+ *
+ * \var MovementAuth::overlap_speed
+ * \brief Overlap speed.
+ */
+struct MovementAuth
+{
+    int8_t scale;
+
+    int8_t allowed_speed_end;
+
+    int16_t speed_expire_time;
+
+    int8_t iter;
+
+    Section sections[iter];
+
+    int16_t end_section_length;
+
+    Section last;
+
+    boolean is_timer;
+
+    int16_t zone_expiration_time;
+
+    int16_t timer_start_distance;
+
+    int8_t is_danger_point;
+
+    int16_t distance_from_auth;
+
+    int8_t danger_speed;
+
+    int8_t is_overlap;
+
+    int16_t distance_from_start;  
+
+    int16_t overlap_time;
+
+    int16_t distance_from_end;
+
+    int8_t overlap_speed;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct Order
+ * \brief Edict.
+ *
+ * \var Order::order_lvl
+ * \brief Required level of control.
+ *
+ * \var Order::nid
+ * \brief National system identifier.
+ *
+ * \var Order::ack_distance
+ * \brief Mode Confirmation Region Length.
+ *
+ */
+struct Order
+{
+    int16_t order_lvl;
+
+    int8_t nid;
+
+    int16_t ack_distance;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct LvlTransitionOrder
+ * \brief Package 41 Level Transition Order.
+ *
+ * \details Used to change the control level.
+ *
+ * \var LvlTransitionOrder::scale
+ * \brief Distance scale, set to 1.
+ *
+ * \var LvlTransitionOrder::change_distance
+ * \brief Distance to mode change.
+ *
+ * \var LvlTransitionOrder::current
+ * \brief Last order (probably).
+ *
+ * \var LvlTransitionOrder::iter
+ * \brief Number of orders.
+ *
+ * \var LvlTransitionOrder::orders[iter]
+ * \brief Required level of control.
+ */
+struct LvlTransitionOrder
+{
+    int8_t scale;
+
+    int16_t change_distance;
+
+    Order current;
+
+    int8_t iter;
+
+    Order orders[iter];
+}
+
+//=======================================================================================
+
+/*!
+ * \struct SessionManagement
+ * \brief Package 42 Session Management.
+ *
+ * \details Used to control the installation or termination of
+ *          a communication session with the RBC.
+ *
+ * \var SessionManagement::control_flag
+ * \brief Session control flag.
+ *
+ * \var SessionManagement::zone_id
+ * \brief Zone ID.
+ *
+ * \var SessionManagement::rbc_id
+ * \brief RBC identifier. Fits in 16383.
+ *
+ * \var SessionManagement::rbc_num
+ * \brief RBC number.
+ *
+ * \var SessionManagement::is_alive
+ * \brief Session control use flag. Set to 1.
+ */
+struct SessionManagement
+{
+    boolean control_flag;
+
+    int16_t zone_id;
+
+    int16_t rbc_id;
+
+    int64_t rbc_num;
+
+    int8_t  is_alive;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct AppDataFromRbc
+ * \brief Package 44 Data used by applications outside the ERTMS/ETCS system.
+ *
+ * \details Used to transfer data for applications.
+ *
+ * \var AppDataFromRbc::system_id
+ * \brief System ID, set to 1.
+ *
+ * \var AppDataFromRbc::zone
+ * \brief Zone ID.
+ *
+ * \var AppDataFromRbc::balise_id
+ * \brief Balise identifier.
+ *
+ * \var AppDataFromRbc::distance
+ * \brief Actaul distance.
+ *
+ * \var AppDataFromRbc::crc_32
+ * \brief CRC 32 checksum.
+ */
+struct AppDataFromRbc
+{
+    int16_t system_id;
+
+    int32_t zone;
+
+    int16_t balise_id;
+
+    int16_t distance;
+
+    int32_t crc_32;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct Balise
+ * \brief Balise object.
+ *
+ * \var Balise::new_zone
+ * \brief New zone flag.
+ *
+ * \var Balise::zone_id
+ * \brief Zone / Region ID.
+ *
+ * \var Balise::balise_group_id
+ * \brief Balise group id.
+ */
+struct Balise
+{
+    boolean new_zone;
+
+    int16_t zone_id;
+
+    int16_t balise_group_id;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct SRBaliseList
+ * \brief Package 63 List of Balises in SR Authorisation.
+ *
+ * \details  Used to transfer data for applications.
+ *
+ * \var SRBaliseList::iter
+ * \brief Number of balises.
+ *
+ * \var SRBaliseList::balises[iter]
+ * \brief List of balises.
+ */
+struct SRBaliseList
+{
+    int8_t iter;
+
+    Balise balises[iter];
+}
+
+//=======================================================================================
+
+/*!
+ * \struct SpeedRestr
+ * \brief Package 65 Temporary Speed Restriction.
+ *
+ * \details Used to convey temporary speed limits.
+ *
+ * \var SpeedRestr::scale
+ * \brief Distance scale, set to 1.
+ *
+ * \var SpeedRestr::restr_id
+ * \brief Temporary Speed Limit ID
+ *
+ * \var SpeedRestr::enable_dist
+ * \brief Distance to the starting point of the temporary speed limit.
+ *
+ * \var SpeedRestr::active_dist
+ * \brief Temporary speed limit length.
+ *
+ * \var SpeedRestr::is_valid
+ * \brief The flag of the validity of the end point of the velocity profile.
+ *
+ * \var SpeedRestr::allowed_speed
+ * \brief Permitted speed of temporary speed limit.
+ */
+struct SpeedRestr
+{
+    int8_t  scale;
+
+    int8_t  restr_id;
+
+    int16_t enable_dist;
+
+    int16_t active_dist;
+
+    boolean is_valid;
+
+    int8_t  allowed_speed;
+}
+
+//=======================================================================================
+
+/*!
+ * \struct SpeedRestrRev
+ * \brief Package 66 Temporary Speed Restriction Revocation.
+ *
+ * \details Used to override temporary speed limits.
+ *
+ * \var SpeedRestrRev::restr_id
+ * \brief Temporary Speed Limit ID.
+ *
+ * \var SpeedRestr::restr_id
+ * \brief Temporary Speed Limit ID
+ *
+ * \var SpeedRestr::enable_dist
+ * \brief Distance to the starting point of the temporary speed limit.
+ *
+ * \var SpeedRestr::active_dist
+ * \brief Temporary speed limit length.
+ *
+ * \var SpeedRestr::is_valid
+ * \brief The flag of the validity of the end point of the velocity profile.
+ *
+ * \var SpeedRestr::allowed_speed
+ * \brief Permitted speed of temporary speed limit.
+ */
+struct SpeedRestrRev
+{
+    int8_t restr_id;
+}
+
+//=======================================================================================
+
+/*!
+ * \}
+ */
